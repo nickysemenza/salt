@@ -1,0 +1,13 @@
+[Unit]
+Description=cloudflared
+After=syslog.target network.target
+
+[Service]
+Type=simple
+RemainAfterExit=no
+User={{ user }}
+Group={{ group}}
+ExecStart={{ execstart }} 
+
+[Install]
+WantedBy=multi-user.target

@@ -1,5 +1,5 @@
-include:
-  - cloudflared
+{# include: #}
+  {# - cloudflared #}
 
 group_prometheus:
   group:
@@ -18,23 +18,100 @@ user_prometheus:
     - shell: /bin/false
     - system: True
 
-{% set port = pillar.get('ports')['node_exporter'] %}
+{% set node_exporter_port = pillar.get('ports')['node_exporter'] %}
+{% set _port = pillar.get('ports')['node_exporter'] %}
 
-{% load_yaml as opts %}
-- web.listen-address=":{{port}}"
+{% load_yaml as node_exporter_opts %}
+- web.listen-address=":{{node_exporter_port}}"
 - collector.processes 
 - collector.systemd
+
+{% endload %}
+{% load_yaml as prom_opts %}
+- web.listen-address=":{{pillar.get('ports')['prometheus']}}"
+- config.file="/srv/prometheus/prometheus.yml"
 
 {% endload %}
 
 
 {%- set node_exporter_version = '0.17.0' %}
-{%- set node_exporter_name = 'node_exporter-'+node_exporter_version+'.linux-'+grains.get('osarch') %}
-{%- set dir = '/srv/prometheus/node_exporter/'+node_exporter_name %}
-{%- set cmd = dir+'/node_exporter' + opts | map('replace', '', ' --', 1) | join %}
+{%- set prom_version = '2.9.1' %}
+{%- set arch = grains.get('osarch')%}
+{% if grains.get('cpuarch') == "armv7l" %}
+  {%- set arch = "armv7" %} 
+{% endif %}
 
 
-{% if not salt['file.directory_exists' ](dir) %}
+
+{%- set prom_name = 'prometheus-'+prom_version+'.linux-'+arch %}
+{%- set prom_dir = '/srv/prometheus/prometheus/'+prom_name %}
+{%- set prom_cmd = prom_dir+'/prometheus' + prom_opts | map('replace', '', ' --', 1) | join %}
+
+
+/srv/prometheus/prometheus.yml:
+  file.managed:
+    - source: salt://prometheus.yml.jinja
+    - template: jinja
+    - mode: 644
+    - user: prometheus
+    - group: prometheus
+    {# - context: #}
+        {# message: {{pillar.get('motd')}} #}
+
+{% if not salt['file.directory_exists' ](prom_dir) %}
+prometheus_archive:
+  archive:
+    - extracted
+    - name: /srv/prometheus/prometheus
+    - source: https://github.com/prometheus/prometheus/releases/download/v{{prom_version}}/{{prom_name}}.tar.gz
+    - skip_verify: True
+    - user: prometheus
+    - group: prometheus
+    - keep: True #}
+{% endif %}
+
+{# https://www.lutro.me/posts/managing-systemd-units-with-salt #}
+prometheus_service_script:
+  file:
+    - managed
+    - name: /etc/systemd/system/prometheus.service
+    {# TODO: don't hardcode root #}
+    - user: root
+    - group: root
+    - contents: |
+        [Unit]
+        Description=prometheus
+        After=syslog.target network.target
+
+        [Service]
+        Type=simple
+        RemainAfterExit=no
+        WorkingDirectory= {{prom_dir}}
+        User=prometheus
+        Group=prometheus
+        ExecStart={{prom_cmd}} 
+
+        [Install]
+        WantedBy=multi-user.target
+  module.run:
+    - name: service.systemctl_reload
+    - onchanges:
+      - file: /etc/systemd/system/prometheus.service
+
+prometheus_service:
+  service:
+    - running
+    - name: prometheus
+    - enable: True
+    - watch: 
+      - module: prometheus_service_script
+
+
+{%- set node_exporter_name = 'node_exporter-'+node_exporter_version+'.linux-'+arch %}
+{%- set node_exporter_dir = '/srv/prometheus/node_exporter/'+node_exporter_name %}
+{%- set node_exporter_cmd = node_exporter_dir+'/node_exporter' + node_exporter_opts | map('replace', '', ' --', 1) | join %}
+
+{% if not salt['file.directory_exists' ](node_exporter_dir) %}
 prometheus_node_exporter_archive:
   archive:
     - extracted
@@ -55,16 +132,16 @@ prometheus_node_exporter_service_script:
     - group: root
     - contents: |
         [Unit]
-        Description=prometheus
+        Description=prometheus node_exporter
         After=syslog.target network.target
 
         [Service]
         Type=simple
         RemainAfterExit=no
-        WorkingDirectory= {{dir}}
+        WorkingDirectory= {{node_exporter_dir}}
         User=prometheus
         Group=prometheus
-        ExecStart={{cmd}} 
+        ExecStart={{node_exporter_cmd}} 
 
         [Install]
         WantedBy=multi-user.target
@@ -81,5 +158,5 @@ prometheus_node_exporter_service:
     - watch: 
       - module: prometheus_node_exporter_service_script
 
-{%- from 'cloudflared/init.sls' import spawn_cloudflared %}
-{{ spawn_cloudflared('nickysemenza.com', 'salttest1.nickysemenza.com', pillar.ports['node_exporter'], 'localhost') }}
+{# {%- from 'cloudflared/init.sls' import spawn_cloudflared %} #}
+{# {{ spawn_cloudflared('nickysemenza.com', 'salttest1.nickysemenza.com', pillar.ports['node_exporter'], 'localhost') }} #}
