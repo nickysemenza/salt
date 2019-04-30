@@ -4,3 +4,4 @@ base:
     - data
     - users
     - cloudflared
+    - wireguard
