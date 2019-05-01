@@ -1,6 +1,12 @@
 {# include: #}
   {# - cloudflared #}
 
+{% set host = grains.get('host') %}
+{% set roles = pillar.get('prometheus') %}
+{% set node_proms = roles[host] if host in roles else None %}
+
+{% set run_server = True if node_proms and node_proms.scrape_configs else False %}
+
 group_prometheus:
   group:
     - present
@@ -25,6 +31,7 @@ user_prometheus:
 - web.listen-address=":{{node_exporter_port}}"
 - collector.processes 
 - collector.systemd
+- collector.wifi
 
 {% endload %}
 {% load_yaml as prom_opts %}
@@ -47,16 +54,18 @@ user_prometheus:
 {%- set prom_dir = '/srv/prometheus/prometheus/'+prom_name %}
 {%- set prom_cmd = prom_dir+'/prometheus' + prom_opts | map('replace', '', ' --', 1) | join %}
 
-
+{% if run_server %}
 /srv/prometheus/prometheus.yml:
   file.managed:
-    - source: salt://prometheus.yml.jinja
+    - source: salt://prometheus/prometheus.yml.jinja
     - template: jinja
     - mode: 644
     - user: prometheus
     - group: prometheus
-    {# - context: #}
-        {# message: {{pillar.get('motd')}} #}
+    - context:
+        scrape_configs: {{node_proms['scrape_configs']}}
+{% endif %}
+
 
 {% if not salt['file.directory_exists' ](prom_dir) %}
 prometheus_archive:
@@ -100,11 +109,14 @@ prometheus_service_script:
 
 prometheus_service:
   service:
-    - running
+    - {{ 'running' if run_server else 'dead' }}
     - name: prometheus
     - enable: True
     - watch: 
       - module: prometheus_service_script
+      {% if run_server %}
+      - file: /srv/prometheus/prometheus.yml
+      {% endif %}
 
 
 {%- set node_exporter_name = 'node_exporter-'+node_exporter_version+'.linux-'+arch %}
@@ -152,7 +164,7 @@ prometheus_node_exporter_service_script:
 
 prometheus_node_exporter_service:
   service:
-    - running
+    - 'running'
     - name: prometheus-node_exporter
     - enable: True
     - watch: 
