@@ -8,8 +8,9 @@ ports:
 
 
 roles:
-  debian-s-1vcpu-1gb-sfo2-01.localdomain:
+  debian-s-1vcpu-1gb-sfo2-01:
     wireguard: server
+    public_ip: 157.230.168.108
   pecan:
     wireguard: client
 

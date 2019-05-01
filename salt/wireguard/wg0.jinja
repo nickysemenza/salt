@@ -1,19 +1,21 @@
 {% set host = grains.get('host') %}
+{% set port = 1234 %}
 
 {% if host == 'pecan' %}
+[Interface]
 PrivateKey = {{pillar.wireguard[host].privkey}}
 Address = 172.16.0.1/24
 
 [Peer]
 PublicKey = {{pillar.wireguard['debian-s-1vcpu-1gb-sfo2-01'].pubkey}}
 AllowedIPs = 172.16.0.0/24
-Endpoint = vpn.nickysemenza.com:1234
+Endpoint = {{pillar.roles['debian-s-1vcpu-1gb-sfo2-01'].public_ip}}:{{port}}
 PersistentKeepalive = 20
 
 {% elif host == 'debian-s-1vcpu-1gb-sfo2-01' %}
 [Interface]
 PrivateKey = {{pillar.wireguard[host].privkey}}
-ListenPort = 1234
+ListenPort = {{port}}
 Address = 172.16.0.2/24
 
 [Peer]
