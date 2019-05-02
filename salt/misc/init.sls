@@ -9,14 +9,13 @@ misc_packages:
       - wget
       - htop
       - lsof
+
+{% if grains.get('osarch') == "amd64" %}
 rg:
   pkg.installed:
     - sources:
-      - ripgrep: https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb
-{# myapp:
-  docker.running:
-    - image: nginx
-  #}
+      - ripgrep: https://github.com/BurntSushi/ripgrep/releases/download/11.0.1/ripgrep_11.0.1_.deb
+{% endif %}
 
 /swapfile:
   cmd.run:
