@@ -1,5 +1,3 @@
-{# include: #}
-  {# - cloudflared #}
 
 {% set host = grains.get('host') %}
 {% set roles = pillar.get('prometheus') %}
@@ -169,6 +167,3 @@ prometheus_node_exporter_service:
     - enable: True
     - watch: 
       - module: prometheus_node_exporter_service_script
-
-{# {%- from 'cloudflared/init.sls' import spawn_cloudflared %} #}
-{# {{ spawn_cloudflared('nickysemenza.com', 'salttest1.nickysemenza.com', pillar.ports['node_exporter'], 'localhost') }} #}
