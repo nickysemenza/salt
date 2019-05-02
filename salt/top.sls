@@ -3,7 +3,6 @@ base:
   '*':
     - users
     - misc
-    - nginx
     - motd
     - prometheus
     - wireguard
