@@ -5,6 +5,7 @@
 
 {% set run_server = True if node_proms and node_proms.scrape_configs else False %}
 
+{% set dir = '/data/prometheus' %}
 group_prometheus:
   group:
     - present
@@ -17,8 +18,8 @@ user_prometheus:
     - name: prometheus
     - groups:
       - prometheus
-    - home: /srv/prometheus
-    - createhome: True
+    {# - home: {{ dir }} #}
+    {# - createhome: True #}
     - shell: /bin/false
     - system: True
 
@@ -34,7 +35,7 @@ user_prometheus:
 {% endload %}
 {% load_yaml as prom_opts %}
 - web.listen-address=":{{pillar.get('ports')['prometheus']}}"
-- config.file="/srv/prometheus/prometheus.yml"
+- config.file="{{ dir }}/prometheus.yml"
 
 {% endload %}
 
@@ -49,11 +50,11 @@ user_prometheus:
 
 
 {%- set prom_name = 'prometheus-'+prom_version+'.linux-'+arch %}
-{%- set prom_dir = '/srv/prometheus/prometheus/'+prom_name %}
+{%- set prom_dir = dir+'/prometheus/'+prom_name %}
 {%- set prom_cmd = prom_dir+'/prometheus' + prom_opts | map('replace', '', ' --', 1) | join %}
 
 {% if run_server %}
-/srv/prometheus/prometheus.yml:
+{{ dir }}/prometheus.yml:
   file.managed:
     - source: salt://prometheus/prometheus.yml.jinja
     - template: jinja
@@ -69,7 +70,7 @@ user_prometheus:
 prometheus_archive:
   archive:
     - extracted
-    - name: /srv/prometheus/prometheus
+    - name: {{ dir }}/prometheus
     - source: https://github.com/prometheus/prometheus/releases/download/v{{prom_version}}/{{prom_name}}.tar.gz
     - skip_verify: True
     - user: prometheus
@@ -113,19 +114,19 @@ prometheus_service:
     - watch: 
       - module: prometheus_service_script
       {% if run_server %}
-      - file: /srv/prometheus/prometheus.yml
+      - file: {{ dir }}/prometheus.yml
       {% endif %}
 
 
 {%- set node_exporter_name = 'node_exporter-'+node_exporter_version+'.linux-'+arch %}
-{%- set node_exporter_dir = '/srv/prometheus/node_exporter/'+node_exporter_name %}
+{%- set node_exporter_dir = dir+'/node_exporter/'+node_exporter_name %}
 {%- set node_exporter_cmd = node_exporter_dir+'/node_exporter' + node_exporter_opts | map('replace', '', ' --', 1) | join %}
 
 {% if not salt['file.directory_exists' ](node_exporter_dir) %}
 prometheus_node_exporter_archive:
   archive:
     - extracted
-    - name: /srv/prometheus/node_exporter
+    - name: {{ dir }}/node_exporter
     - source: https://github.com/prometheus/node_exporter/releases/download/v{{node_exporter_version}}/{{node_exporter_name}}.tar.gz
     - skip_verify: True
     - user: prometheus
