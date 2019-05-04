@@ -1,0 +1,55 @@
+{% set database = pillar.get('databases')['postgres-main'] %}
+version: "3"
+services:
+  traefik:
+    image: traefik
+    network_mode: host
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/compose/traefik.toml:/traefik.toml
+  jaeger:
+    container_name: jaeger
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - 5778:5778
+      - 16686:16686 # UI
+      - 14268:14268
+      - 9411:9411
+    image: "jaegertracing/all-in-one:1.10"
+    labels:
+      - "traefik.frontend.rule=Host:jaeger.infra.nickysemenza.com"
+      - "traefik.port=16686"
+  whoami:
+    image: emilevauge/whoami
+    labels:
+      - "traefik.frontend.rule=Host:whoami.infra.nickysemenza.com"
+  grafana:
+    {# ports:
+      - "3002:3000" #}
+    image: grafana/grafana:6.0.0
+    network_mode: host
+    {# depends_on: #}
+      {# - prometheus #}
+      {# - influxdb #}
+    environment:
+      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,jdbranham-diagram-panel"
+      GF_SECURITY_ADMIN_PASSWORD: "{{ pillar.get('grafana')['admin-password'] }}"
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_NAME: "{{ grafana_dbname }}"
+      GF_DATABASE_HOST: "{{ database['address'] }}"
+      GF_DATABASE_USER: "{{ database['user'] }}"
+      GF_DATABASE_PASSWORD: "{{ database['password'] }}"
+      GF_DATABASE_SSL_MODE: disable
+
+    {# volumes: #}
+      {# - "./grafana:/var/lib/grafana" #}
+    labels:
+      - "traefik.frontend.rule=Host:grafana.nickysemenza.com"
+      - "traefik.port=3000"
