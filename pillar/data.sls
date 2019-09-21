@@ -13,7 +13,7 @@ roles:
     public_ip: 157.230.168.108
   pecan:
     wireguard: client
-    lan_ip: 10.0.0.29
+    lan_ip: 10.0.0.41 # TODO: make this static
     wg_ip: 172.16.0.1
 
 
@@ -33,7 +33,7 @@ prometheus:
         replacement: 'pecan'
     - job_name: 'node_exporter peach'
       static_configs:
-      - targets: ['10.0.0.37:9100']
+      - targets: ['10.0.0.42:9100']
       relabel_configs:
       - source_labels: [__address__]
         regex: '.*'
@@ -62,6 +62,9 @@ prometheus:
         regex: '.*'
         target_label: instance
         replacement: 'saltmaster'
+    - job_name: 'traefik'
+      static_configs:
+      - targets: ['localhost:8080']
 
 databases:
   postgres-main:

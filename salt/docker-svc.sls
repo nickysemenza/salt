@@ -10,6 +10,7 @@ deps:
   pip.installed:
     - pkgs:
       - docker
+      - docker-compose>=1.5.0
 
 
 docker_repository:
@@ -32,34 +33,24 @@ docker-ce-stable:
       - pkgrepo: docker_repository
 
 
-mycontainer:
-  docker_container.running:
-    - image: jmalloc/echo-server
-    - network_mode: "host"
-    
-grafana:
-  docker_container.running:
-    - image: grafana/grafana
-    - network_mode: "host" # todo: use traefik #}
-    - environment:
-      - GF_SECURITY_ADMIN_PASSWORD: {{ pillar.get('grafana')['admin-password'] }}
-      {# - GF_DATABASE_URL: postgres://{{database['user']}}:{{database['password']}}@{{database['address']}}/{{grafana_dbname}}?sslmode=disable #}
-      - GF_DATABASE_TYPE: postgres
-      - GF_DATABASE_NAME: {{ grafana_dbname }}
-      - GF_DATABASE_HOST: {{ database['address'] }}
-      - GF_DATABASE_USER: {{ database['user'] }}
-      - GF_DATABASE_PASSWORD: {{ database['password'] }}
-      - GF_DATABASE_SSL_MODE: disable
+{% set traefik_config = '/data/compose/traefik.toml' %}
 
-netbox:
-  docker_container.running:
-    - image: pitkley/netbox
-    - network_mode: "host" {# todo: use traefik #}
-    - environment:
-      - ALLOWED_HOSTS: "*"
-      - DB_HOST: {{ database['address'] }}
-      - DB_NAME: {{ netbox_dbname }}
-      - DB_PORT: {{ database['port'] }}
-      - DB_USER: {{ database['user'] }}
-      - DB_PASS: {{ database['password'] }}
-      - SECRET_KEY: {{ pillar.get('netbox')['secret-key'] }} 
+{{ traefik_config }}:
+  file.managed:
+    - makedirs: True
+    - mode: 644
+    - source: salt://traefik/traefik.toml.jinja
+
+/data/compose/docker-compose.yml:
+  file.managed:
+      - makedirs: True
+      - source: salt://docker/docker-compose.yml.jinja
+      - template: jinja
+      - context:
+          grafana_dbname: {{ grafana_dbname }}
+docker-stack:
+  module.run:
+    - name: dockercompose.up
+    - path: /data/compose/docker-compose.yml
+    {# - onchanges:
+      - file: /data/compose/docker-compose.yml #}

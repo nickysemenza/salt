@@ -39,7 +39,7 @@ services:
       {# - prometheus #}
       {# - influxdb #}
     environment:
-      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,jdbranham-diagram-panel"
+      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,jdbranham-diagram-panel,grafana-piechart-panel"
       GF_SECURITY_ADMIN_PASSWORD: "{{ pillar.get('grafana')['admin-password'] }}"
       GF_DATABASE_TYPE: postgres
       GF_DATABASE_NAME: "{{ grafana_dbname }}"

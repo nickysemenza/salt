@@ -9,6 +9,7 @@ misc_packages:
       - wget
       - htop
       - lsof
+      - ncdu
 
 {% if grains.get('osarch') == "amd64" %}
 rg:
