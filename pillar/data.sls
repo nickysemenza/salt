@@ -44,7 +44,7 @@ prometheus:
     - job_name: 'local_prometheus'
       static_configs:
       - targets: ['localhost:9101']
-    - job_name: 'federate'
+    - job_name: 'federate (pecan)'
       scrape_interval: 15s
       honor_labels: true
       metrics_path: '/federate'
