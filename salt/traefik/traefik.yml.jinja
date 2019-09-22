@@ -8,13 +8,12 @@ providers:
     swarmModeRefreshSeconds: 15s
   file:
     filename: "./http.yml"
+    watch: true
 api:
   insecure: true
 metrics:
   prometheus:
     entryPoint: traefik
-log:
-  level: DEBUG
 tracing:
   serviceName: traefik
   jaeger:

@@ -4,6 +4,12 @@ http:
     to-grafana-direct:
       rule: "Host(`grafana-direct.infra.nickysemenza.com`)"
       service: grafana-direct
+    prometheus:
+      rule: "Host(`prometheus.infra.nickysemenza.com`)"
+      service: prometheus
+    prometheus-home:
+      rule: "Host(`prometheus-home.infra.nickysemenza.com`)"
+      service: prometheus-home
 
   services:
     # Define how to reach an existing service on our infrastructure
@@ -11,3 +17,12 @@ http:
       loadBalancer:
         servers:
         - url: http://localhost:3000
+    prometheus:
+      loadBalancer:
+        servers:
+        - url: http://localhost:9101
+    prometheus-home:
+      loadBalancer:
+        servers:
+        - url: http://{{pillar.roles['pecan'].wg_ip}}:{{pillar.ports['prometheus']}}
+        

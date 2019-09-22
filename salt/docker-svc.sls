@@ -38,11 +38,13 @@ docker-ce-stable:
   file.managed:
     - makedirs: True
     - mode: 644
+    - template: jinja
     - source: salt://traefik/traefik.yml.jinja
 /data/compose/traefik-http.yml:
   file.managed:
     - makedirs: True
     - mode: 644
+    - template: jinja
     - source: salt://traefik/http.yml.jinja
 
 /data/compose/docker-compose.yml:
