@@ -1,0 +1,13 @@
+http:
+  routers:
+    # Define a connection between requests and services
+    to-grafana-direct:
+      rule: "Host(`grafana-direct.infra.nickysemenza.com`)"
+      service: grafana-direct
+
+  services:
+    # Define how to reach an existing service on our infrastructure
+    grafana-direct:
+      loadBalancer:
+        servers:
+        - url: http://localhost:3000

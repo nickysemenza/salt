@@ -33,13 +33,17 @@ docker-ce-stable:
       - pkgrepo: docker_repository
 
 
-{% set traefik_config = '/data/compose/traefik.toml' %}
 
-{{ traefik_config }}:
+/data/compose/traefik.yml:
   file.managed:
     - makedirs: True
     - mode: 644
-    - source: salt://traefik/traefik.toml.jinja
+    - source: salt://traefik/traefik.yml.jinja
+/data/compose/traefik-http.yml:
+  file.managed:
+    - makedirs: True
+    - mode: 644
+    - source: salt://traefik/http.yml.jinja
 
 /data/compose/docker-compose.yml:
   file.managed:

@@ -1,0 +1,27 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+providers:
+  providersThrottleDuration: 2s
+  docker:
+    watch: true
+    swarmModeRefreshSeconds: 15s
+  file:
+    filename: "./http.yml"
+api:
+  insecure: true
+metrics:
+  prometheus:
+    entryPoint: traefik
+log:
+  level: DEBUG
+tracing:
+  serviceName: traefik
+  jaeger:
+    samplingServerURL: http://localhost:5778/sampling
+    samplingType: const
+    localAgentHostPort: localhost:6831
+
+entrypoints:
+  http:
+    address: ':80'

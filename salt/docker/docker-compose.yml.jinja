@@ -2,14 +2,15 @@
 version: "3"
 services:
   traefik:
-    image: traefik
+    image: traefik:v2.0
     network_mode: host
     ports:
       - "80:80"
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /data/compose/traefik.toml:/traefik.toml
+      - /data/compose/traefik.yml:/traefik.yml
+      - /data/compose/traefik-http.yml:/http.yml
   jaeger:
     container_name: jaeger
     environment:
@@ -24,12 +25,12 @@ services:
       - 9411:9411
     image: "jaegertracing/all-in-one:1.10"
     labels:
-      - "traefik.frontend.rule=Host:jaeger.infra.nickysemenza.com"
-      - "traefik.port=16686"
+      - "traefik.http.routers.jaeger.rule=Host(`jaeger.infra.nickysemenza.com`)"
+      - "traefik.http.services.jaeger.loadbalancer.server.port=16686"
   whoami:
     image: emilevauge/whoami
     labels:
-      - "traefik.frontend.rule=Host:whoami.infra.nickysemenza.com"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.infra.nickysemenza.com`)"
   grafana:
     {# ports:
       - "3002:3000" #}
@@ -51,5 +52,5 @@ services:
     {# volumes: #}
       {# - "./grafana:/var/lib/grafana" #}
     labels:
-      - "traefik.frontend.rule=Host:grafana.nickysemenza.com"
-      - "traefik.port=3000"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.nickysemenza.com`)"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
