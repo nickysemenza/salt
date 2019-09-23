@@ -33,6 +33,12 @@ docker-ce-stable:
       - pkgrepo: docker_repository
 
 
+/data/compose/grafana/grafana.ini:
+  file.managed:
+    - makedirs: True
+    - mode: 644
+    - template: jinja
+    - source: salt://docker/grafana.ini.jinja
 
 /data/compose/traefik.yml:
   file.managed:

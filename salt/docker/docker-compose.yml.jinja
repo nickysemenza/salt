@@ -32,13 +32,10 @@ services:
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.infra.nickysemenza.com`)"
   grafana:
-    {# ports:
-      - "3002:3000" #}
-    image: grafana/grafana:6.0.0
+    volumes:
+      - /data/compose/grafana/grafana.ini:/etc/grafana/grafana.ini
+    image: grafana/grafana:6.3.5
     network_mode: host
-    {# depends_on: #}
-      {# - prometheus #}
-      {# - influxdb #}
     environment:
       GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,jdbranham-diagram-panel,grafana-piechart-panel"
       GF_SECURITY_ADMIN_PASSWORD: "{{ pillar.get('grafana')['admin-password'] }}"
@@ -48,9 +45,6 @@ services:
       GF_DATABASE_USER: "{{ database['user'] }}"
       GF_DATABASE_PASSWORD: "{{ database['password'] }}"
       GF_DATABASE_SSL_MODE: disable
-
-    {# volumes: #}
-      {# - "./grafana:/var/lib/grafana" #}
     labels:
       - "traefik.http.routers.grafana.rule=Host(`grafana.nickysemenza.com`)"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
