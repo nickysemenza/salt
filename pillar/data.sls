@@ -5,6 +5,7 @@ motd: hello there :)
 ports:
   node_exporter: 9100
   prometheus: 9101
+  cloudflare_access_forward_auth: 2021
 
 
 roles:

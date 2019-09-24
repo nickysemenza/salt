@@ -1,6 +1,14 @@
 {% set database = pillar.get('databases')['postgres-main'] %}
 version: "3"
 services:
+  traefik-auth-cloudflare:
+    image: akohlbecker/traefik-auth-cloudflare
+    restart: always
+    container_name: traefik-auth-cloudflare
+    # traefik-auth-cloudflare needs to be configured with your auth-domain
+    command: ["--auth-domain", "https://nickysemenza.cloudflareaccess.com"]
+    ports:
+      - "{{pillar.get('ports')['cloudflare_access_forward_auth']}}:80"
   traefik:
     image: traefik:v2.0
     network_mode: host
@@ -11,6 +19,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /data/compose/traefik.yml:/traefik.yml
       - /data/compose/traefik-http.yml:/http.yml
+    depends_on: 
+      - "traefik-auth-cloudflare"
   jaeger:
     container_name: jaeger
     environment:
@@ -27,6 +37,7 @@ services:
     labels:
       - "traefik.http.routers.jaeger.rule=Host(`jaeger.infra.nickysemenza.com`)"
       - "traefik.http.services.jaeger.loadbalancer.server.port=16686"
+      - "traefik.http.routers.jaeger.middlewares=cloudflare-access@file"
   whoami:
     image: emilevauge/whoami
     labels:
@@ -48,3 +59,5 @@ services:
     labels:
       - "traefik.http.routers.grafana.rule=Host(`grafana.nickysemenza.com`)"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.http.routers.grafana.middlewares=cloudflare-access@file"
+
