@@ -9,6 +9,9 @@ http:
     prometheus-home:
       rule: "Host(`prometheus-home.infra.nickysemenza.com`)"
       service: prometheus-home
+    traefik-dashboard:
+      rule: "Host(`traefik.infra.nickysemenza.com`)"
+      service: api@internal
 
   services:
     grafana-direct:
