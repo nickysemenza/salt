@@ -1,10 +1,13 @@
 {% set host = grains.get('host') %}
-{% set port = 1234 %}
+{# TODO: mode port to pillar #}
+{% set port = 1234 %} 
 
+{% set node_role = pillar.roles[host] %}
+{# minions that conenct: #}
 {% if host == 'pecan' %}
 [Interface]
 PrivateKey = {{pillar.wireguard[host].privkey}}
-Address = 172.16.0.1/24
+Address = {{pillar.roles[host].wg_ip}}/24
 PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; sysctl net.ipv4.ip_forward=1
 PostDown = iptables -t nat -D POSTROUTING -o etho0 -j MASQUERADE
 
@@ -14,7 +17,8 @@ AllowedIPs = 172.16.0.0/24
 Endpoint = {{pillar.roles['debian-s-1vcpu-1gb-sfo2-01'].public_ip}}:{{port}}
 PersistentKeepalive = 20
 
-{% elif host == 'debian-s-1vcpu-1gb-sfo2-01' %}
+{# master node: #}
+{% elif node_role.wireguard == 'server' %}
 [Interface]
 PrivateKey = {{pillar.wireguard[host].privkey}}
 ListenPort = {{port}}
@@ -22,5 +26,5 @@ Address = 172.16.0.2/24
 
 [Peer]
 PublicKey =  {{pillar.wireguard['pecan'].pubkey}}
-AllowedIPs = 172.16.0.1/32, 10.0.0.0/24
+AllowedIPs = {{pillar.roles['pecan'].wg_ip}}/32, 10.0.0.0/24
 {% endif %}
