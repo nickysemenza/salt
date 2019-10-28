@@ -24,7 +24,7 @@ user_prometheus:
     - system: True
 
 {% set node_exporter_port = pillar.get('ports')['node_exporter'] %}
-{% set _port = pillar.get('ports')['node_exporter'] %}
+{# {% set _port = pillar.get('ports')['node_exporter'] %} #}
 
 {% load_yaml as node_exporter_opts %}
 - web.listen-address=":{{node_exporter_port}}"

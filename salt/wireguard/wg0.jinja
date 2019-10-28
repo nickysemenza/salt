@@ -1,6 +1,5 @@
 {% set host = grains.get('host') %}
-{# TODO: mode port to pillar #}
-{% set port = 1234 %} 
+{% set port = pillar.get('ports')['wireguard'] %} 
 
 {% set node_role = pillar.roles[host] %}
 {# minions that conenct: #}

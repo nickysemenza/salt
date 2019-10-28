@@ -59,11 +59,11 @@ http:
     grafana-direct:
       loadBalancer:
         servers:
-        - url: http://localhost:3000
+        - url: http://localhost:{{pillar.get('ports')['grafana']}}
     prometheus:
       loadBalancer:
         servers:
-        - url: http://localhost:9101
+        - url: http://localhost:{{pillar.get('ports')['prometheus']}}
     prometheus-home:
       loadBalancer:
         servers:

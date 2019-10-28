@@ -4,3 +4,5 @@ base:
     - data
     - users
     - wireguard
+    - ports
+    - prometheus

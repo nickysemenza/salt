@@ -58,6 +58,6 @@ services:
       GF_DATABASE_SSL_MODE: disable
     labels:
       - "traefik.http.routers.grafana.rule=Host(`grafana.nickysemenza.com`)"
-      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.http.services.grafana.loadbalancer.server.port={{pillar.get('ports')['grafana']}}"
       - "traefik.http.routers.grafana.middlewares=cloudflare-access@file"
 

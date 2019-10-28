@@ -2,13 +2,6 @@
 info: some data
 motd: hello there :)
 
-# TODO: move to seperate pillar
-ports:
-  node_exporter: 9100
-  prometheus: 9101
-  cloudflare_access_forward_auth: 2021
-
-
 roles:
   debian-s-1vcpu-1gb-sfo2-01:
     wireguard: server
@@ -22,54 +15,6 @@ roles:
     wg_ip: 172.16.0.1
 
 
-prometheus:
-  pecan:
-    scrape_configs:
-    - job_name: 'prometheus'
-      static_configs:
-      - targets: ['localhost:9101']
-    - job_name: 'node_exporter local (pecan)'
-      static_configs:
-      - targets: ['localhost:9100']
-      relabel_configs:
-      - source_labels: [__address__]
-        regex: '.*'
-        target_label: instance
-        replacement: 'pecan'
-    - job_name: 'node_exporter peach'
-      static_configs:
-      - targets: ['10.0.0.42:9100']
-      relabel_configs:
-      - source_labels: [__address__]
-        regex: '.*'
-        target_label: instance
-        replacement: 'peach'
-  debian-s-1vcpu-1gb-sfo2-01:
-    scrape_configs:
-    - job_name: 'local_prometheus'
-      static_configs:
-      - targets: ['localhost:9101']
-    - job_name: 'federate (pecan)'
-      scrape_interval: 15s
-      honor_labels: true
-      metrics_path: '/federate'
-      params:
-        'match[]':
-          - '{job!=""}'
-      static_configs:
-        - targets:
-          - '172.16.0.1:9101'
-    - job_name: 'node_exporter local (saltmaster)'
-      static_configs:
-      - targets: ['localhost:9100']
-      relabel_configs:
-      - source_labels: [__address__]
-        regex: '.*'
-        target_label: instance
-        replacement: 'saltmaster'
-    - job_name: 'traefik'
-      static_configs:
-      - targets: ['localhost:8080']
 
 databases:
   postgres-main:
