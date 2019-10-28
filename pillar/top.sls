@@ -6,3 +6,5 @@ base:
     - wireguard
     - ports
     - prometheus
+    - databases
+    - grafana

@@ -1,7 +1,10 @@
 
+{%- set node_exporter_version = '0.17.0' %}
+{%- set prom_version = '2.9.1' %}
+
 {% set host = grains.get('host') %}
-{% set roles = pillar.get('prometheus') %}
-{% set node_proms = roles[host] if host in roles else None %}
+{% set node_configs = pillar.get('prometheus') %}
+{% set node_proms = node_configs[host] if host in node_configs else None %}
 
 {% set run_server = True if node_proms and node_proms.scrape_configs else False %}
 
@@ -40,8 +43,7 @@ user_prometheus:
 {% endload %}
 
 
-{%- set node_exporter_version = '0.17.0' %}
-{%- set prom_version = '2.9.1' %}
+
 {%- set arch = grains.get('osarch')%}
 {% if grains.get('cpuarch') == "armv7l" %}
   {%- set arch = "armv7" %} 

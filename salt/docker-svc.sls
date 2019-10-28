@@ -1,6 +1,5 @@
 {% set database = pillar.get('databases')['postgres-main'] %}
 {% set grafana_dbname = "grafana" %}
-{% set netbox_dbname = "netbox" %}
 deps:
   pkg.installed:
     - pkgs:

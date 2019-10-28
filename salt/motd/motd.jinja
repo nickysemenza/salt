@@ -1,5 +1,6 @@
+{% set host = grains.get('host') %}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-host: {{ grains.get('host') }}!
+host: {{ host }}!
 message: {{ message }}
 kernel: {{ grains.get('kernelversion') }}
 os: {{ grains.get('os')}} {{grains.get('osrelease')}} {{ grains.get('oscodename')}} ({{ grains.get('osarch')}})
@@ -9,4 +10,8 @@ v6:
 {{ grains.get('ipv6') | yaml(false) | indent(2, indentfirst=true) }}
 cpu: {{grains.get('cpu_model')}} | {{grains.get('cpuarch')}}
 env: {{grains.get('virtual')}}
+{%- if host in pillar.get('roles') %}
+node roles:
+{{ pillar.get('roles')[host] | yaml(false) | indent(2, indentfirst=true) }}
+{%- endif %}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
