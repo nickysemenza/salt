@@ -41,7 +41,15 @@ services:
   whoami:
     image: emilevauge/whoami
     labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.infra.nickysemenza.com`)"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.infra.nickysemenza.com`) || HostRegexp(`{subdomain:[a-z]+}.infra.nickysemenza.com`)"
+      - "traefik.http.routers.whoami.priority=30"
+  digitalocean_exporter:
+    image: metalmatze/digitalocean_exporter:master
+    environment:
+      DIGITALOCEAN_TOKEN: '{{ pillar.get('digitalocean')['apikey-ro'] }}'
+    restart: always
+    ports:
+    - "9212:9212"
   grafana:
     volumes:
       - /data/compose/grafana/grafana.ini:/etc/grafana/grafana.ini

@@ -1,3 +1,5 @@
+#!yaml|gpg
+
 databases:
   postgres-main:
     version: 9.6

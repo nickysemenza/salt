@@ -1,4 +1,3 @@
-#!yaml|gpg
 info: some data
 motd: hello there :)
 

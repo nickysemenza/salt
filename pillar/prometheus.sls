@@ -48,3 +48,6 @@ prometheus:
     - job_name: 'traefik'
       static_configs:
       - targets: ['localhost:8080']
+    - job_name: 'digitalocean'
+      static_configs:
+      - targets: ['localhost:9212']
