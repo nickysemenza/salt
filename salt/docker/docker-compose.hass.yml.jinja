@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+  homeassistant:
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - "/data/hass:/config"
+    ports:
+      - "8123:8123"
+    image: "homeassistant/raspberrypi3-homeassistant:stable"

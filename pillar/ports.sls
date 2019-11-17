@@ -4,3 +4,4 @@ ports:
   grafana: 3000
   node_exporter: 9100
   prometheus: 9101
+  hass: 8123

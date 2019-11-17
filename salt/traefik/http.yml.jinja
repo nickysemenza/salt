@@ -24,6 +24,12 @@ http:
       middlewares:
         - "cloudflare-ips"
         - "cloudflare-access"
+    hass:
+      rule: "Host(`hass.infra.nickysemenza.com`)"
+      service: hass
+      middlewares:
+        - "cloudflare-ips"
+        - "cloudflare-access"
         
   middlewares:
     cloudflare-access:
@@ -68,3 +74,7 @@ http:
       loadBalancer:
         servers:
         - url: http://{{pillar.roles['pecan'].wg_ip}}:{{pillar.ports['prometheus']}}
+    hass:
+      loadBalancer:
+        servers:
+        - url: http://{{pillar.roles['pecan'].wg_ip}}:{{pillar.ports['hass']}}
