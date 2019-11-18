@@ -22,6 +22,10 @@ prometheus:
         regex: '.*'
         target_label: instance
         replacement: 'peach'
+    - job_name: 'freenas netdata'
+      metrics_path: '/netdata/api/v1/allmetrics?format=prometheus&help=yes'
+      static_configs:
+      - targets: ['10.0.0.202']
   debian-s-1vcpu-1gb-sfo2-01:
     scrape_configs:
     - job_name: 'local_prometheus'
