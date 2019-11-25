@@ -36,6 +36,12 @@ include:
       - template: jinja
       - context:
           grafana_dbname: {{ grafana_dbname }}
+docker-stack-pull:
+  module.run:
+    - name: dockercompose.pull
+    - path: /data/compose/docker-compose.yml
+    - require:
+      - sls: docker
 docker-stack:
   module.run:
     - name: dockercompose.up

@@ -41,6 +41,11 @@ prometheus:
       static_configs:
         - targets:
           - '172.16.0.1:{{ ports['prometheus'] }}'
+      relabel_configs:
+      - source_labels: [__address__]
+        regex: '.*'
+        target_label: instance
+        replacement: 'pecan'
     - job_name: 'node_exporter local (saltmaster)'
       static_configs:
       - targets: ['localhost:{{ ports['node_exporter'] }}']

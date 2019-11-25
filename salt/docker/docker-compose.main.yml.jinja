@@ -1,4 +1,5 @@
 {% set database = pillar.get('databases')['postgres-main'] %}
+{% set ports = pillar.get('ports') %}
 version: "3"
 services:
   traefik-auth-cloudflare:
@@ -8,9 +9,10 @@ services:
     # traefik-auth-cloudflare needs to be configured with your auth-domain
     command: ["--auth-domain", "https://nickysemenza.cloudflareaccess.com"]
     ports:
-      - "{{pillar.get('ports')['cloudflare_access_forward_auth']}}:80"
+      - "{{ports['cloudflare_access_forward_auth']}}:80"
   traefik:
     image: traefik:v2.0
+    container_name: traefik
     network_mode: host
     ports:
       - "80:80"
@@ -40,17 +42,20 @@ services:
       - "traefik.http.routers.jaeger.middlewares=cloudflare-access@file"
   whoami:
     image: emilevauge/whoami
+    container_name: whoami
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.infra.nickysemenza.com`) || HostRegexp(`{subdomain:[a-z]+}.infra.nickysemenza.com`)"
       - "traefik.http.routers.whoami.priority=30"
   digitalocean_exporter:
     image: metalmatze/digitalocean_exporter:master
+    container_name: digitalocean_exporter 
     environment:
       DIGITALOCEAN_TOKEN: '{{ pillar.get('digitalocean')['apikey-ro'] }}'
     restart: always
     ports:
     - "9212:9212"
   grafana:
+    container_name: grafana
     volumes:
       - /data/compose/grafana/grafana.ini:/etc/grafana/grafana.ini
     image: grafana/grafana:6.3.5
