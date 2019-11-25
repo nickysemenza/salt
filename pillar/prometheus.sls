@@ -26,6 +26,9 @@ prometheus:
       metrics_path: '/netdata/api/v1/allmetrics?format=prometheus&help=yes'
       static_configs:
       - targets: ['10.0.0.202']
+    - job_name: 'cadvisor'
+      static_configs:
+      - targets: ['localhost:{{ports['cadvisor']}}']
   debian-s-1vcpu-1gb-sfo2-01:
     scrape_configs:
     - job_name: 'local_prometheus'
@@ -60,3 +63,6 @@ prometheus:
     - job_name: 'digitalocean'
       static_configs:
       - targets: ['localhost:9212']
+    - job_name: 'cadvisor'
+      static_configs:
+      - targets: ['localhost:{{ports['cadvisor']}}']

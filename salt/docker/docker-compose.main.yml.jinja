@@ -73,4 +73,13 @@ services:
       - "traefik.http.routers.grafana.rule=Host(`grafana.nickysemenza.com`)"
       - "traefik.http.services.grafana.loadbalancer.server.port={{pillar.get('ports')['grafana']}}"
       - "traefik.http.routers.grafana.middlewares=cloudflare-access@file"
-
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "{{ports['cadvisor']}}:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro

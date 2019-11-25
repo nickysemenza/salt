@@ -1,3 +1,4 @@
+{% set ports = pillar.get('ports') %}
 version: "3.3"
 services:
   homeassistant:
@@ -8,3 +9,14 @@ services:
     ports:
       - "8123:8123"
     image: "homeassistant/raspberrypi3-homeassistant:stable"
+  cadvisor:
+    {# for arm to work: #}
+    image: zcube/cadvisor:latest 
+    container_name: cadvisor
+    ports:
+      - "{{ports['cadvisor']}}:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro

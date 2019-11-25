@@ -5,3 +5,4 @@ ports:
   node_exporter: 9100
   prometheus: 9101
   hass: 8123
+  cadvisor: 9102

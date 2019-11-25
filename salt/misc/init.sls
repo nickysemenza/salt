@@ -10,6 +10,7 @@ misc_packages:
       - htop
       - lsof
       - ncdu
+      - iperf3
 
 {% if grains.get('osarch') == "amd64" %}
 rg:
