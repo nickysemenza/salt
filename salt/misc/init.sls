@@ -1,3 +1,5 @@
+{% set host = grains.get('host') %}
+{% set node_role = pillar.roles[host] %}
 
 misc_packages:
   pkg.latest:
@@ -19,6 +21,7 @@ rg:
       - ripgrep: https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
 {% endif %}
 
+{% if 'swap' in node_role and node_role.swap %}
 /swapfile:
   cmd.run:
     - name: |
@@ -30,3 +33,4 @@ rg:
       - file /swapfile 2>&1 | grep -q "Linux/i386 swap"
   mount.swap:
     - persist: true
+{% endif %}

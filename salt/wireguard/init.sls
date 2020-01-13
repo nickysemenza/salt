@@ -5,7 +5,7 @@
 
 {# only run this on certain nodes, probably makes more sense to target in top.sls? #}
 
-{% if node_roles and node_roles.wireguard%}
+{% if 'wireguard' in node_roles and node_roles.wireguard%}
 wg_apt:
 {% if "Raspbian" in grains.get('os') %}
   pkg.installed:
