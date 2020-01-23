@@ -7,5 +7,5 @@ base:
     - ports
     - prometheus
     - databases
-    - grafana
+    - secrets 
     - digitalocean

@@ -6,3 +6,6 @@ ports:
   prometheus: 9101
   hass: 8123
   cadvisor: 9102
+  unifipoller: 9292
+  http: 80
+  traefik: 8082

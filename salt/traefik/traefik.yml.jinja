@@ -1,3 +1,4 @@
+{% set ports = pillar.get('ports') %}
 global:
   checkNewVersion: true
   sendAnonymousUsage: true
@@ -24,3 +25,5 @@ tracing:
 entrypoints:
   http:
     address: ':80'
+  traefik:
+    address: ':{{ports['traefik']}}'

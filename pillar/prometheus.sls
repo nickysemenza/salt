@@ -67,10 +67,13 @@ prometheus:
         replacement: 'saltmaster'
     - job_name: 'traefik'
       static_configs:
-      - targets: ['localhost:8080']
+      - targets: ['localhost:{{ports['traefik']}}']
     - job_name: 'digitalocean'
       static_configs:
       - targets: ['localhost:9212']
+    - job_name: 'unifipoller'
+      static_configs:
+      - targets: ['localhost:{{ports['unifipoller']}}']
     - job_name: 'cadvisor'
       static_configs:
       - targets: ['localhost:{{ports['cadvisor']}}']

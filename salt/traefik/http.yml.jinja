@@ -30,6 +30,12 @@ http:
       middlewares:
         - "cloudflare-ips"
         - "cloudflare-access"
+    unifi:
+      rule: "Host(`unifi.infra.nickysemenza.com`)"
+      service: unifi
+      middlewares:
+        - "cloudflare-ips"
+        - "cloudflare-access"
         
   middlewares:
     cloudflare-access:
@@ -78,3 +84,7 @@ http:
       loadBalancer:
         servers:
         - url: http://{{pillar.roles['pecan'].wg_ip}}:{{pillar.ports['hass']}}
+    unifi:
+      loadBalancer:
+        servers:
+        - url: https://localhost:8443

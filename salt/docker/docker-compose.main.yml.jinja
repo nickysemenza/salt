@@ -15,8 +15,8 @@ services:
     container_name: traefik
     network_mode: host
     ports:
-      - "80:80"
-      - "8080:8080"
+      - "{{ports['http']}}:80"
+      - "{{ports['traefik']}}:{{ports['traefik']}}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /data/compose/traefik.yml:/traefik.yml
@@ -83,3 +83,33 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+  unifi-poller:
+    restart: always
+    image: golift/unifi-poller:stable
+    environment:
+      - UP_MODE=prometheus
+      - UP_UNIFI_USER={{ pillar.get('unifi')['username'] }}
+      - UP_UNIFI_PASS={{ pillar.get('unifi')['password'] }}
+      - UP_UNIFI_URL=https://unifi.nickysemenza.com:8443
+      - UP_HTTP_LISTEN=0.0.0.0:{{ports['unifipoller']}}
+    ports:
+      - "{{ports['unifipoller']}}:{{ports['unifipoller']}}"
+  unifi-controller:
+    image: linuxserver/unifi-controller
+    container_name: unifi-controller
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MEM_LIMIT=1024M #optional
+    volumes:
+      - /data/compose/unifi:/config
+    ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 8081:8081
+      - 8443:8443
+      - 8843:8843
+      - 8880:8880
+      - 6789:6789
+    restart: unless-stopped
