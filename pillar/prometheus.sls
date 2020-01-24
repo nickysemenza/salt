@@ -1,5 +1,7 @@
 {%- import_yaml "ports.sls" as ports %}
 {% set ports = ports.ports %}
+{%- import_yaml "data.sls" as data %}
+{% set roles = data.roles %}
 prometheus:
   pecan:
     scrape_configs:
@@ -16,7 +18,7 @@ prometheus:
         replacement: 'pecan'
     - job_name: 'node_exporter peach'
       static_configs:
-      - targets: ['10.0.0.42:{{ ports['node_exporter'] }}']
+      - targets: ['{{roles['peach'].lan_ip}}:{{ ports['node_exporter'] }}']
       relabel_configs:
       - source_labels: [__address__]
         regex: '.*'
@@ -24,7 +26,7 @@ prometheus:
         replacement: 'peach'
     - job_name: 'node_exporter mainvm'
       static_configs:
-      - targets: ['10.0.0.231:{{ ports['node_exporter'] }}']
+      - targets: ['{{roles['main'].lan_ip}}:{{ ports['node_exporter'] }}']
       relabel_configs:
       - source_labels: [__address__]
         regex: '.*'
@@ -33,10 +35,13 @@ prometheus:
     - job_name: 'freenas netdata'
       metrics_path: '/netdata/api/v1/allmetrics?format=prometheus&help=yes'
       static_configs:
-      - targets: ['10.0.0.202']
+      - targets: ['{{roles['freenas'].lan_ip}}']
     - job_name: 'cadvisor'
       static_configs:
       - targets: ['localhost:{{ports['cadvisor']}}']
+    - job_name: 'esxi'
+      static_configs:
+      - targets: ['{{roles['main'].lan_ip}}:{{ports['vmware_exporter']}}']
   debian-s-1vcpu-1gb-sfo2-01:
     scrape_configs:
     - job_name: 'local_prometheus'

@@ -1,14 +1,14 @@
 {% set ports = pillar.get('ports') %}
 version: "3.3"
 services:
-  homeassistant:
+  {# homeassistant:
     environment:
       - TZ=America/New_York
     volumes:
       - "/data/hass:/config"
     ports:
       - "8123:8123"
-    image: "homeassistant/raspberrypi3-homeassistant:stable"
+    image: "homeassistant/raspberrypi3-homeassistant:stable" #}
   cadvisor:
     {# for arm to work: #}
     image: zcube/cadvisor:latest 

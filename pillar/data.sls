@@ -13,8 +13,13 @@ roles:
     swap: True
   pecan:
     wireguard: client
-    lan_ip: 10.0.0.41 # TODO: make this static
+    lan_ip: 10.0.0.15
     wg_ip: 172.16.0.1
     docker_compose_tier: hass
+  peach:
+    lan_ip: 10.0.0.99
   main:
-    lan_ip: 10.0.0.231 # TODO: make this static
+    lan_ip: 10.0.0.12
+  freenas:
+    message: not managed by salt
+    lan_ip: 10.0.0.11
