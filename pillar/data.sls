@@ -23,3 +23,7 @@ roles:
   freenas:
     message: not managed by salt
     lan_ip: 10.0.0.11
+  r710-bmc:
+    message: not managed by salt
+    lan_ip: 10.0.0.13
+

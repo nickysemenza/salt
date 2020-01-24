@@ -34,15 +34,13 @@ user_prometheus:
 - collector.processes 
 - collector.systemd
 - collector.wifi
-
+- collector.textfile.directory="{{ dir }}/text"
 {% endload %}
+
 {% load_yaml as prom_opts %}
 - web.listen-address=":{{pillar.get('ports')['prometheus']}}"
 - config.file="{{ dir }}/prometheus.yml"
-
 {% endload %}
-
-
 
 {%- set arch = grains.get('osarch')%}
 {% if grains.get('cpuarch') == "armv7l" %}
@@ -170,3 +168,18 @@ prometheus_node_exporter_service:
     - enable: True
     - watch: 
       - module: prometheus_node_exporter_service_script
+
+{% if host == "pecan" %}
+{# TODO: pull ip from r710-bm, don't gate this on hostname, move to another sls file, don't pin to master #}
+download_ipmitool:
+  file.managed:
+    - name: /tmp/ipmitool-exporter
+    - source: https://raw.githubusercontent.com/prometheus-community/node-exporter-textfile-collector-scripts/master/ipmitool
+    - source_hash: a25cdcd481969d081446db39cbe3c9e4
+    - mode: 777
+run_ipmitool:
+  cron.present:
+    - name: ipmitool -I lanplus -H 10.0.0.13 -U root -P calvin sensor | /tmp/ipmitool-exporter > /data/prometheus/text/ipmi.prom
+    - user: root
+    - minute: '*/1'
+{% endif %}

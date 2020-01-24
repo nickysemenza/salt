@@ -56,7 +56,7 @@ prometheus:
           - '{job!=""}'
       static_configs:
         - targets:
-          - '172.16.0.1:{{ ports['prometheus'] }}'
+          - '{{roles['pecan'].wg_ip}}:{{ ports['prometheus'] }}'
       relabel_configs:
       - source_labels: [__address__]
         regex: '.*'

@@ -13,6 +13,12 @@ misc_packages:
       - lsof
       - ncdu
       - iperf3
+      - dnsutils
+      - avahi-daemon
+      - avahi-utils # includes avahi-browse
+{% if host == "pecan" %}
+      - ipmitool
+{% endif %}
 
 {% if grains.get('osarch') == "amd64" %}
 rg:
