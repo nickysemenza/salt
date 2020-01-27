@@ -16,6 +16,7 @@ misc_packages:
       - dnsutils
       - avahi-daemon
       - avahi-utils # includes avahi-browse
+      - net-tools
 {% if host == "pecan" %}
       - ipmitool
 {% endif %}

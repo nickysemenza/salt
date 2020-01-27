@@ -1,5 +1,6 @@
 {% set database = pillar.get('databases')['postgres-main'] %}
-{% set ports = pillar.get('ports') %}
+{% import "lib.sls" as lib -%}
+
 version: "3"
 services:
   traefik-auth-cloudflare:
@@ -9,14 +10,14 @@ services:
     # traefik-auth-cloudflare needs to be configured with your auth-domain
     command: ["--auth-domain", "https://nickysemenza.cloudflareaccess.com"]
     ports:
-      - "{{ports['cloudflare_access_forward_auth']}}:80"
+      - "{{lib.get_port('cloudflare_access_forward_auth')}}:80"
   traefik:
     image: traefik:v2.0
     container_name: traefik
     network_mode: host
     ports:
-      - "{{ports['http']}}:80"
-      - "{{ports['traefik']}}:{{ports['traefik']}}"
+      - "{{lib.get_port('http')}}:80"
+      - "{{lib.get_port('traefik')}}:{{lib.get_port('traefik')}}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /data/compose/traefik.yml:/traefik.yml
@@ -77,7 +78,7 @@ services:
     image: google/cadvisor:latest
     container_name: cadvisor
     ports:
-      - "{{ports['cadvisor']}}:8080"
+      - "{{lib.get_port('cadvisor')}}:8080"
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -91,9 +92,9 @@ services:
       - UP_UNIFI_USER={{ pillar.get('unifi')['username'] }}
       - UP_UNIFI_PASS={{ pillar.get('unifi')['password'] }}
       - UP_UNIFI_URL=https://unifi.nickysemenza.com:8443
-      - UP_HTTP_LISTEN=0.0.0.0:{{ports['unifipoller']}}
+      - UP_HTTP_LISTEN=0.0.0.0:{{lib.get_port('unifipoller')}}
     ports:
-      - "{{ports['unifipoller']}}:{{ports['unifipoller']}}"
+      - "{{lib.get_port('unifipoller')}}:{{lib.get_port('unifipoller')}}"
   unifi-controller:
     image: linuxserver/unifi-controller
     container_name: unifi-controller

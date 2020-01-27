@@ -1,7 +1,8 @@
-{% for user, props in pillar.get('users', {}).iteritems() %}
+{% for user, props in pillar.get('users', {}).items() %}
 {{user}}:
   user.present:
-    - uid: {{props['uid']}}
+    - shell: /bin/bash
+    {# - uid: {{props['uid']}} #}
   {%- if 'github_username' in props %}
   ssh_auth.present:
     - user: {{user}}

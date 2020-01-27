@@ -1,4 +1,4 @@
-{% set ports = pillar.get('ports') %}
+{% import "lib.sls" as lib -%}
 global:
   checkNewVersion: true
   sendAnonymousUsage: true
@@ -26,4 +26,4 @@ entrypoints:
   http:
     address: ':80'
   traefik:
-    address: ':{{ports['traefik']}}'
+    address: ':{{lib.get_port('traefik')}}'

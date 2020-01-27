@@ -1,3 +1,4 @@
+{% import "lib.sls" as lib -%}
 http:
   routers:
     to-grafana-direct:
@@ -40,7 +41,7 @@ http:
   middlewares:
     cloudflare-access:
       forwardAuth:
-        address: "http://localhost:{{pillar.get('ports')['cloudflare_access_forward_auth']}}/auth/7c6d913377f00e8781dfa2c785ae01b2f37f17c067b0fb830ad71e305a5a21d5"
+        address: "http://localhost:{{lib.get_port('cloudflare_access_forward_auth')}}/auth/7c6d913377f00e8781dfa2c785ae01b2f37f17c067b0fb830ad71e305a5a21d5"
     cloudflare-ips:
       ipWhiteList:
         sourceRange:
@@ -71,19 +72,19 @@ http:
     grafana-direct:
       loadBalancer:
         servers:
-        - url: http://localhost:{{pillar.get('ports')['grafana']}}
+        - url: http://localhost:{{lib.get_port('grafana')}}
     prometheus:
       loadBalancer:
         servers:
-        - url: http://localhost:{{pillar.get('ports')['prometheus']}}
+        - url: http://localhost:{{lib.get_port('prometheus')}}
     prometheus-home:
       loadBalancer:
         servers:
-        - url: http://{{pillar.roles['pecan'].wg_ip}}:{{pillar.ports['prometheus']}}
+        - url: http://{{pillar.roles['pecan'].wg_ip}}:{{lib.get_port('prometheus')}}
     hass:
       loadBalancer:
         servers:
-        - url: http://{{pillar.roles['pecan'].wg_ip}}:{{pillar.ports['hass']}}
+        - url: http://{{pillar.roles['pecan'].wg_ip}}:{{lib.get_port('hass')}}
     unifi:
       loadBalancer:
         servers:
