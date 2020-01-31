@@ -15,3 +15,4 @@ ports:
   sonarr: 8989 # tv
   jackett: 9117 # torrent indexer
   ombi: 3579 # media manager
+  unifi: 8443

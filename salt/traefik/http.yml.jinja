@@ -1,43 +1,37 @@
 {% import "lib.sls" as lib -%}
+
+{# TODO: make this work inside load_yaml #}
+{# {% set pecan_wg = pillar.roles['pecan'].wg_ip %} #}
+
+{% load_yaml as services %}
+---
+grafana: {}
+prometheus: {}
+prometheus-pecan:
+  upstream_override: "http://172.16.0.1"
+  portname_override: prometheus
+hass: 
+  upstream_override: "http://172.16.0.1"
+unifi: {}
+{% endload %}
 http:
   routers:
-    to-grafana-direct:
-      rule: "Host(`grafana.infra.nickysemenza.com`)"
-      service: grafana-direct
+{%- for service, attrs in services.items() %}
+    {{service}}:
+      rule: "Host(`{{service}}.infra.nickysemenza.com`)"
+      service: {{service}}
       middlewares:
         - "cloudflare-ips"
         - "cloudflare-access"
-    prometheus:
-      rule: "Host(`prometheus.infra.nickysemenza.com`)"
-      service: prometheus
-      middlewares:
-        - "cloudflare-ips"
-        - "cloudflare-access"
-    prometheus-home:
-      rule: "Host(`prometheus-home.infra.nickysemenza.com`)"
-      service: prometheus-home
-      middlewares:
-        - "cloudflare-ips"
-        - "cloudflare-access"
+{%-endfor%} 
+
     traefik-dashboard:
       rule: "Host(`traefik.infra.nickysemenza.com`)"
       service: api@internal
       middlewares:
         - "cloudflare-ips"
         - "cloudflare-access"
-    hass:
-      rule: "Host(`hass.infra.nickysemenza.com`)"
-      service: hass
-      middlewares:
-        - "cloudflare-ips"
-        - "cloudflare-access"
-    unifi:
-      rule: "Host(`unifi.infra.nickysemenza.com`)"
-      service: unifi
-      middlewares:
-        - "cloudflare-ips"
-        - "cloudflare-access"
-        
+
   middlewares:
     cloudflare-access:
       forwardAuth:
@@ -69,23 +63,11 @@ http:
           - "172.64.0.0/13"
           - "131.0.72.0/22"
   services:
-    grafana-direct:
+{%- for service, attrs in services.items() %}
+{% set port_name = attrs['portname_override'] if 'portname_override' in attrs else service %}
+{% set upstream = attrs['upstream_override'] if 'upstream_override' in attrs else "http://localhost" %}
+    {{service}}:
       loadBalancer:
         servers:
-        - url: http://localhost:{{lib.get_port('grafana')}}
-    prometheus:
-      loadBalancer:
-        servers:
-        - url: http://localhost:{{lib.get_port('prometheus')}}
-    prometheus-home:
-      loadBalancer:
-        servers:
-        - url: http://{{pillar.roles['pecan'].wg_ip}}:{{lib.get_port('prometheus')}}
-    hass:
-      loadBalancer:
-        servers:
-        - url: http://{{pillar.roles['pecan'].wg_ip}}:{{lib.get_port('hass')}}
-    unifi:
-      loadBalancer:
-        servers:
-        - url: https://localhost:8443
+        - url: {{upstream}}:{{lib.get_port(port_name)}}
+{%-endfor%}
