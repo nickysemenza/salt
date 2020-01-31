@@ -36,6 +36,7 @@ include:
       - template: jinja
       - context:
           grafana_dbname: {{ grafana_dbname }}
+          data_dir: /data/compose/
 docker-stack-pull:
   module.run:
     - name: dockercompose.pull

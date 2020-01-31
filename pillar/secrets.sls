@@ -33,3 +33,20 @@ unifi:
     8zcnqxOeI6jYeHz+YgNCJNyAeKP0D3LX+89JAzyLFRfSgKoiagL6PA==
     =bpF3
     -----END PGP MESSAGE----- 
+pia:
+  username: p4266434
+  password: |
+    -----BEGIN PGP MESSAGE-----
+
+    hQGMAyRAvboUiVyYAQv/Tz3AqXOYbe8AhSy1mSuqpnjokjsErM9seDSw+WxqKxdz
+    4NZmsCQMl2f/TaUHEwa/6rN2zkJed9OvlQnw9iGjAVtygPEEN9WCPe7e6tPjWPrn
+    4h4GEI4x8wvfbvhWy4Emw9QUaZK3UfIth3divf+JZBRb7ZcD+tuaeV4Nobd3tQaH
+    mXRXDBprSaEvMNW7dlLO6Tf/7+yx5CVd96KdyTBT4FtkhQi1aVk6RbPh2Cl602Tk
+    ber6GSaH9ctWWjk1OgMjTcoNvjltHPT2mIekqYswUWbx8TgG6hCGfU6w5knW4kh5
+    YZ2F4y2cHiccwA77YrNKgI5lnG9UXasc7/RPTm4H032Bf7lmliptMZ64l2yGo4Kp
+    tgAQ7eLpEY8471ai4HV5ZdaZLORRumXtmHm74FKxUE/9xV8P8s6Y4FNd/7544bkl
+    OaW/3GCDMMTb9fm9gQX8lch8Zqs4l/0+QquuBFrdEqb8SHlCzMpsnCj/WJWCYBdz
+    vKYQf7Ctm/6vs6IFbYbg0kUBO1XcMVky7bAJ6l6T3dSdnMLYkfyjoTCBpYIQwkaN
+    xxzyi0/cmTpDuBFXw7zF4U0nlVNhSaCX3UX/33g+AwWtGDRjd7Q=
+    =8TZ7
+    -----END PGP MESSAGE-----
