@@ -22,6 +22,7 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
   transmission:
+    container_name: transmission
     image: haugene/transmission-openvpn:latest-armhf
     cap_add:
       - NET_ADMIN
@@ -36,7 +37,7 @@ services:
       - 8.8.4.4
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - "{{media_dir}}torrents:/data"
+      - "{{media_dir}}/torrents:/data"
     environment:
       - OPENVPN_PROVIDER=PIA
       {# - OPENVPN_CONFIG=DE Frankfurt #}
@@ -47,9 +48,9 @@ services:
   radarr:
     container_name: radarr
     volumes:
-      - {{data_dir}}radarr/:/config
-      - {{media_dir}}torrents:/data
-      - {{media_dir}}movies:/movies
+      - {{data_dir}}/radarr/:/config
+      - {{media_dir}}/torrents:/data
+      - {{media_dir}}/movies:/movies
       - "/etc/localtime:/etc/localtime:ro"
     environment:
       - TZ=America/Los_Angeles
@@ -69,9 +70,9 @@ services:
       # - PGID=1001
       - TZ=America/Los_Angeles
     volumes:
-      - {{data_dir}}sonarr:/config
-      - {{media_dir}}torrents:/data
-      - {{media_dir}}tv:/tv
+      - {{data_dir}}/sonarr:/config
+      - {{media_dir}}/torrents:/data
+      - {{media_dir}}/tv:/tv
       - "/etc/localtime:/etc/localtime:ro"
     ports:
       - {{lib.get_port('sonarr')}}:8989
@@ -88,8 +89,8 @@ services:
       # - PGID=1001
       - TZ=America/Los_Angeles
     volumes:
-      - {{data_dir}}jackett:/config
-      - {{media_dir}}torrents/watch:/downloads
+      - {{data_dir}}/jackett:/config
+      - {{media_dir}}/torrents/watch:/downloads
     ports:
       - {{lib.get_port('jackett')}}:9117
     restart: unless-stopped
@@ -101,7 +102,7 @@ services:
       - PGID=1000
       - TZ=America/Los_Angeles
     volumes:
-      - {{data_dir}}ombi:/config
+      - {{data_dir}}/ombi:/config
     ports:
       - {{lib.get_port('ombi')}}:3579
     depends_on:

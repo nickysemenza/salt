@@ -13,6 +13,17 @@ prometheus-pecan:
 hass: 
   upstream_override: "http://172.16.0.1"
 unifi: {}
+movies: 
+  upstream_override: "http://172.16.0.1"
+  portname_override: radarr
+tv: 
+  upstream_override: "http://172.16.0.1"
+  portname_override: sonarr
+media: 
+  upstream_override: "http://172.16.0.1"
+  portname_override: ombi
+jackett: 
+  upstream_override: "http://172.16.0.1"
 {% endload %}
 http:
   routers:
