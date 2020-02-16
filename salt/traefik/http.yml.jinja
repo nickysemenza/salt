@@ -1,31 +1,7 @@
 {% import "lib.sls" as lib -%}
 
-{# TODO: make this work inside load_yaml #}
-{# {% set pecan_wg = pillar.roles['pecan'].wg_ip %} #}
+{% set services = pillar.routes %}
 
-{% load_yaml as services %}
----
-grafana: {}
-prometheus: {}
-prometheus-pecan:
-  upstream_override: "http://172.16.0.1"
-  portname_override: prometheus
-hass: 
-  upstream_override: "http://172.16.0.1"
-unifi:
-  upstream_override: "https://localhost"
-movies: 
-  upstream_override: "http://172.16.0.1"
-  portname_override: radarr
-tv: 
-  upstream_override: "http://172.16.0.1"
-  portname_override: sonarr
-media: 
-  upstream_override: "http://172.16.0.1"
-  portname_override: ombi
-jackett: 
-  upstream_override: "http://172.16.0.1"
-{% endload %}
 http:
   routers:
 {%- for service, attrs in services.items() %}

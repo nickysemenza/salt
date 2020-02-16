@@ -9,3 +9,4 @@ base:
     - databases
     - secrets 
     - digitalocean
+    - traefik-routes
