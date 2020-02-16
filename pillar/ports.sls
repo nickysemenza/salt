@@ -15,4 +15,4 @@ ports:
   cadvisor: 9102 # UI + /metrics
   jackett: 9117 # torrent indexer
   vmware_exporter: 9272 # /metrics for ESXI
-  unifipoller: 9292 # /metrics for unifi
+  unifipoller: 9130 # /metrics for unifi

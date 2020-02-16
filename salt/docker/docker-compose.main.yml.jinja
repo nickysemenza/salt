@@ -59,10 +59,10 @@ services:
     container_name: grafana
     volumes:
       - /data/compose/grafana/grafana.ini:/etc/grafana/grafana.ini
-    image: grafana/grafana:6.3.5
+    image: grafana/grafana:6.6.1
     network_mode: host
     environment:
-      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,jdbranham-diagram-panel,grafana-piechart-panel"
+      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,jdbranham-diagram-panel,grafana-piechart-panel,natel-discrete-panel"
       GF_SECURITY_ADMIN_PASSWORD: "{{ pillar.get('grafana')['admin-password'] }}"
       GF_DATABASE_TYPE: postgres
       GF_DATABASE_NAME: "{{ grafana_dbname }}"
@@ -89,10 +89,12 @@ services:
     image: golift/unifi-poller:stable
     environment:
       - UP_MODE=prometheus
-      - UP_UNIFI_USER={{ pillar.get('unifi')['username'] }}
-      - UP_UNIFI_PASS={{ pillar.get('unifi')['password'] }}
-      - UP_UNIFI_URL=https://unifi.nickysemenza.com:8443
-      - UP_HTTP_LISTEN=0.0.0.0:{{lib.get_port('unifipoller')}}
+      - UP_UNIFI_DEFAULT_USER={{ pillar.get('unifi')['username'] }}
+      - UP_UNIFI_DEFAULT_PASS={{ pillar.get('unifi')['password'] }}
+      - UP_UNIFI_DEFAULT_URL=https://unifi.nickysemenza.com:8443
+      - UP_UNIFI_DEFAULT_VERIFY_SSL=false
+      - UP_PROMETHEUS_HTTP_LISTEN=0.0.0.0:{{lib.get_port('unifipoller')}}
+      - UP_UNIFI_DEFAULT_SAVE_DPI=true
     ports:
       - "{{lib.get_port('unifipoller')}}:{{lib.get_port('unifipoller')}}"
   unifi-controller:

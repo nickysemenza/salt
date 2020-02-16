@@ -40,6 +40,7 @@ user_prometheus:
 {% load_yaml as prom_opts %}
 - web.listen-address=":{{pillar.get('ports')['prometheus']}}"
 - config.file="{{ dir }}/prometheus.yml"
+- storage.tsdb.retention.time="5d"
 {% endload %}
 
 {%- set arch = grains.get('osarch')%}
