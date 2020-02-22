@@ -11,9 +11,9 @@ PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; sysctl net.ipv4.i
 PostDown = iptables -t nat -D POSTROUTING -o etho0 -j MASQUERADE
 
 [Peer]
-PublicKey = {{pillar.wireguard['debian-s-1vcpu-1gb-sfo2-01'].pubkey}}
+PublicKey = {{pillar.wireguard['salt-01'].pubkey}}
 AllowedIPs = 172.16.0.0/24
-Endpoint = {{pillar.roles['debian-s-1vcpu-1gb-sfo2-01'].public_ip}}:{{port}}
+Endpoint = {{pillar.roles['salt-01'].public_ip}}:{{port}}
 PersistentKeepalive = 20
 
 {# master node: #}

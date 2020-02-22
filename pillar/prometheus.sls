@@ -32,14 +32,14 @@ prometheus:
         regex: '.*'
         target_label: instance
         replacement: 'mainvm'
-    - job_name: 'node_exporter wvm'
+    {# - job_name: 'node_exporter wvm'
       static_configs:
       - targets: ['{{roles['wvm'].lan_ip}}:{{ ports['node_exporter'] }}']
       relabel_configs:
       - source_labels: [__address__]
         regex: '.*'
         target_label: instance
-        replacement: 'wvm'
+        replacement: 'wvm' #}
     - job_name: 'freenas netdata'
       metrics_path: '/netdata/api/v1/allmetrics?format=prometheus&help=yes'
       static_configs:
@@ -53,7 +53,7 @@ prometheus:
     - job_name: 'esxi'
       static_configs:
       - targets: ['{{roles['main'].lan_ip}}:{{ports['vmware_exporter']}}']
-  debian-s-1vcpu-1gb-sfo2-01:
+  salt-01:
     scrape_configs:
     - job_name: 'local_prometheus'
       static_configs:

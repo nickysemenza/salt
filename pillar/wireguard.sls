@@ -1,6 +1,6 @@
 #!yaml|gpg
 wireguard:
-  debian-s-1vcpu-1gb-sfo2-01:
+  salt-01:
     pubkey: tpEXzJxrc/r6cfA7ezJsKjlx0q/1AgVrYgRA0ceKOQk=
     privkey: |
       -----BEGIN PGP MESSAGE-----

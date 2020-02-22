@@ -2,7 +2,7 @@ info: some data
 motd: hello there :)
 
 roles:
-  debian-s-1vcpu-1gb-sfo2-01:
+  salt-01:
     wireguard: server
     public_ip: 157.230.168.108
     docker_compose_tier: main
