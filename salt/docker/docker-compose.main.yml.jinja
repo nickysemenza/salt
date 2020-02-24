@@ -116,3 +116,7 @@ services:
       - 8880:8880
       - 6789:6789
     restart: unless-stopped
+  domain_exporter:
+    ports:
+      - '{{lib.get_port('domain_exporter')}}:9222'
+    image: caarlos0/domain_exporter

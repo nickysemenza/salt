@@ -93,3 +93,19 @@ prometheus:
     - job_name: 'cadvisor'
       static_configs:
       - targets: ['localhost:{{ports['cadvisor']}}']
+    - job_name: 'domain'
+      metrics_path: /probe
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: domain
+        - target_label: __address__
+          replacement: localhost:{{ports['domain_exporter']}}
+      static_configs:
+        - targets:
+          - nickysemenza.com
+          - nicky.fun
+          - nicky.space
+          - nicky.photos
+          - xn--zh8hmr.ws

@@ -16,3 +16,4 @@ ports:
   jackett: 9117 # torrent indexer
   vmware_exporter: 9272 # /metrics for ESXI
   unifipoller: 9130 # /metrics for unifi
+  domain_exporter: 9222
