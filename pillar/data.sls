@@ -20,6 +20,8 @@ roles:
     lan_ip: 10.0.0.99
   main:
     lan_ip: 10.0.0.12
+  pineapple:
+    lan_ip: 10.0.0.16
   freenas:
     message: not managed by salt
     lan_ip: 10.0.0.11

@@ -178,6 +178,11 @@ download_ipmitool:
     - source: https://raw.githubusercontent.com/prometheus-community/node-exporter-textfile-collector-scripts/master/ipmitool
     - source_hash: a25cdcd481969d081446db39cbe3c9e4
     - mode: 777
+{% if not salt['file.directory_exists' ]('/data/prometheus/text') %}
+/data/prometheus/text:
+  file.directory:
+    - mode:  755
+{% endif %}
 run_ipmitool:
   cron.present:
     - name: ipmitool -I lanplus -H 10.0.0.13 -U root -P calvin sensor | /tmp/ipmitool-exporter > /data/prometheus/text/ipmi.prom
