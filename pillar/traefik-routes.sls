@@ -1,5 +1,6 @@
 {% import_yaml "data.sls" as data %}
 {% set pecan_wg = data.roles['pecan'].wg_ip %}
+{% set media_ip = data.roles['main'].tailscale_ip %}
 
 routes:
   grafana: {}
@@ -12,7 +13,7 @@ routes:
   unifi:
     upstream_override: "https://localhost"
   movies: 
-    upstream_override: "http://{{ pecan_wg }}"
+    upstream_override: "http://{{ media_ip }}"
     portname_override: radarr
   tv: 
     upstream_override: "http://{{ pecan_wg }}"
