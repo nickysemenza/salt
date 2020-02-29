@@ -22,6 +22,7 @@ roles:
     lan_ip: 10.0.0.12
   pineapple:
     lan_ip: 10.0.0.16
+    docker_compose_tier: pineapple
   freenas:
     message: not managed by salt
     lan_ip: 10.0.0.11

@@ -10,6 +10,14 @@ deps:
       - docker
       - docker-compose>=1.5.0
       - python-apt
+docker_deps:
+  pkg.latest:
+    - pkgs:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
 
 
 docker_repository:

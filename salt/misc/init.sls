@@ -17,6 +17,7 @@ misc_packages:
       - avahi-daemon
       - avahi-utils # includes avahi-browse
       - net-tools
+      - lldpd
 {% if host == "pecan" %}
       - ipmitool
 {% endif %}
