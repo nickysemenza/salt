@@ -93,6 +93,9 @@ prometheus:
     - job_name: 'cadvisor'
       static_configs:
       - targets: ['localhost:{{ports['cadvisor']}}']
+    - job_name: 'cloudflare'
+      static_configs:
+      - targets: ['localhost:{{ports['cloudflare_exporter']}}']
     - job_name: 'domain'
       metrics_path: /probe
       relabel_configs:

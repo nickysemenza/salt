@@ -50,3 +50,21 @@ pia:
     xxzyi0/cmTpDuBFXw7zF4U0nlVNhSaCX3UX/33g+AwWtGDRjd7Q=
     =8TZ7
     -----END PGP MESSAGE-----
+cloudflare:
+  apiemail: 14nicholasse@gmail.com
+  apikey: |
+    -----BEGIN PGP MESSAGE-----
+
+    hQGMAyRAvboUiVyYAQv9GDwXFa3uf5K6Ppv/vDwWQA9ticdun3Hp2cSlAujc4v5I
+    PGoqjuaDL4UeGPkR4YcHRI1DR5A2+lXPB+0vKKWN5er4UjCldA3k3qmIAxqOP39g
+    h8U0x03rKdfn1P9BJ84skfLSmC3IWx8W79Ubdy/mDeHEbeac9cSickFqxpNaDR0O
+    OVwx5ik6wTmhE9dwggFWcSUIJhsgc0WbnYkH7XMFsqri14WWeyvU8Sc+30b2a1fk
+    0N2AmgPSU2uMc//4UYoF8mYn4REyTY9tB62vmRMHhdzZCvs1Ztj/4YnnADpPo2RO
+    H9ekVKudUXWfJiYs5l35M75m4JLEFo8/+OAssjRKEBITUJsxZ6+nL160GGngdep9
+    12bj8BZ/uNFWLkAGUXEm+WHIo4Luu6bec36akOCq8r1Rf2RA18foo3vHj5sLPhht
+    uTYCZCfIfTsBAIq5tee0Ysdd0Y/pB4mE0ES9Et+VhjD5HNjJzsiKwiVFHCej7VcO
+    yd/ao83V5PcuW8yLkDy00mAB8ZwEC3qpI6J7nR3Qys9CrN0EIulCOnLmAeE4v0Qg
+    ygASWnwYF7zJcmovKJiJGqNzkBO4LQorFF2yHoMSTpvFUzu4WmIpGqMmlaLdg1qE
+    GJUWxlLTyw9lVsYt3VajiZw=
+    =Th38
+    -----END PGP MESSAGE-----

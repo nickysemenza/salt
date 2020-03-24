@@ -122,3 +122,10 @@ services:
     ports:
       - '{{lib.get_port('domain_exporter')}}:9222'
     image: caarlos0/domain_exporter
+  cloudflare-prometheus-exporter:
+    ports:
+      - '{{lib.get_port('cloudflare_exporter')}}:2112'
+    environment:
+      - APIKEY={{ pillar.get('cloudflare')['apikey'] }}
+      - APIEMAIL={{ pillar.get('cloudflare')['apiemail'] }}
+    image: stephanecloudflare/cloudflare-prometheus-exporter
