@@ -112,3 +112,15 @@ prometheus:
           - nicky.space
           - nicky.photos
           - xn--zh8hmr.ws
+{% for name, data in roles.items() %}
+{% if 'tailscale_ip' in data %}
+    - job_name: 'node_exporter_{{name}}'
+      static_configs:
+        - targets: ['{{data.tailscale_ip}}:{{ ports['node_exporter'] }}']
+      relabel_configs:
+        - source_labels: [__address__]
+          regex: '.*'
+          target_label: instance
+          replacement: '{{name}}'
+{% endif %}
+{% endfor %}

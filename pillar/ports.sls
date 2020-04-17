@@ -10,7 +10,7 @@ ports:
   hass: 8123 # homeassistant
   unifi: 8443 # admin UI
   sonarr: 8989 # tv
-  transmission: 9091 # torrent via openvpn
+  transmission: 9097 # torrent via openvpn
   node_exporter: 9100 # /metrics port
   prometheus: 9101 # admin UI
   cadvisor: 9102 # UI + /metrics
@@ -18,3 +18,4 @@ ports:
   vmware_exporter: 9272 # /metrics for ESXI
   unifipoller: 9130 # /metrics for unifi
   domain_exporter: 9222
+  speedtest: 9300

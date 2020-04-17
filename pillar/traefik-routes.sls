@@ -16,10 +16,13 @@ routes:
     upstream_override: "http://{{ media_ip }}"
     portname_override: radarr
   tv: 
-    upstream_override: "http://{{ pecan_wg }}"
+    upstream_override: "http://{{ media_ip }}"
     portname_override: sonarr
   media: 
-    upstream_override: "http://{{ pecan_wg }}"
+    upstream_override: "http://{{ media_ip }}"
     portname_override: ombi
+  transmission: 
+    upstream_override: "http://{{ media_ip }}"
+    portname_override: transmission
   jackett: 
-    upstream_override: "http://{{ pecan_wg }}"
+    upstream_override: "http://{{ media_ip }}"
