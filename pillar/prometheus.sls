@@ -96,6 +96,9 @@ prometheus:
     - job_name: 'cloudflare'
       static_configs:
       - targets: ['localhost:{{ports['cloudflare_exporter']}}']
+    - job_name: 'transmission'
+      static_configs:
+      - targets: ['localhost:{{ports['transmission_exporter']}}']
     - job_name: 'domain'
       metrics_path: /probe
       relabel_configs:

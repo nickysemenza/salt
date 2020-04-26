@@ -137,3 +137,10 @@ services:
     image: adolfintel/speedtest
     {# volumes: #}
       {# - /data/compose/speedtest.json:/servers.json #}
+  transmission-exporter:
+    image: metalmatze/transmission-exporter
+    restart: always
+    ports:
+      - "{{lib.get_port('transmission_exporter')}}:19091"
+    environment:
+      TRANSMISSION_ADDR: http://{{pillar.roles['main'].tailscale_ip}}:{{lib.get_port('transmission')}}

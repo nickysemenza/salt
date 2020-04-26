@@ -7,7 +7,7 @@
 {% if compose_tier != "" %}
 include:
   - docker
-{% if compose_tier == "main" %}
+{% if compose_tier == "do1" %}
 /data/compose/grafana/grafana.ini:
   file.managed:
     - makedirs: True

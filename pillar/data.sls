@@ -6,7 +6,7 @@ roles:
     wireguard: server
     public_ip: 157.230.168.108
     tailscale_ip: 100.104.238.26
-    docker_compose_tier: main
+    docker_compose_tier: do1
     swap: True
   debian-s-1vcpu-1gb-sfo2-02:
     wireguard: client
