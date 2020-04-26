@@ -7,6 +7,29 @@
 {% if compose_tier != "" %}
 include:
   - docker
+{# 
+docker logs -> GCP
+https://joonas.fi/2019/01/06/how-to-configure-gcplogs-for-docker/
+https://dertompson.com/2019/01/19/how-to-send-docker-logs-to-google-cloud-logging/ 
+#}
+/etc/docker/googlecloud-serviceaccount.json:
+  file.managed:
+    - makedirs: True
+    - mode: 644
+    - template: jinja
+    - contents_pillar: gcloud:logs
+/etc/systemd/system/docker.service.d/gcp-logs.conf:
+  file.managed:
+    - makedirs: True
+    - mode: 644
+    - template: jinja
+    - source: salt://docker/gcp-logs.conf.jinja
+/etc/docker/daemon.json:
+  file.managed:
+    - makedirs: True
+    - mode: 644
+    - template: jinja
+    - source: salt://docker/daemon.json.jinja
 {% if compose_tier == "do1" %}
 /data/compose/grafana/grafana.ini:
   file.managed:

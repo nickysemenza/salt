@@ -11,6 +11,10 @@ services:
     command: ["--auth-domain", "https://nickysemenza.cloudflareaccess.com"]
     ports:
       - "{{lib.get_port('cloudflare_access_forward_auth')}}:80"
+    logging:
+      driver: gcplogs
+      options:
+        gcp-project: nickysemenza1
   traefik:
     image: traefik:v2.0
     container_name: traefik
