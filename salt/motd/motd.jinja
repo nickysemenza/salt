@@ -8,7 +8,9 @@ v4:
 {{ grains.get('ipv4') | yaml(false) | indent(2, indentfirst=true) }}
 v6: 
 {{ grains.get('ipv6') | yaml(false) | indent(2, indentfirst=true) }}
-cpu: {{grains.get('cpu_model')}} | {{grains.get('cpuarch')}}
+cpu: 
+  - model: {{grains.get('cpu_model')}}
+  - arch: {{grains.get('cpuarch')}}
 env: {{grains.get('virtual')}}
 {%- if host in pillar.get('roles') %}
 node roles:

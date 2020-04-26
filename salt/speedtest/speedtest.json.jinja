@@ -1,0 +1,28 @@
+{% import "lib.sls" as lib -%}
+{% set port = lib.get_port('radarr') %}
+[
+    {
+        "name": "pineapple (tailscale)",
+        "server" :"http://{{pillar.roles['pineapple'].tailscale_ip}}:{{port}}",
+        "dlURL" :"garbage.php",
+        "ulURL" :"empty.php",
+        "pingURL" :"empty.php",
+        "getIpURL" :"getIP.php"
+    },
+    {
+        "name": "pineapple (LAN)",
+        "server" :"http://{{pillar.roles['pineapple'].lan_ip}}:{{port}}",
+        "dlURL" :"garbage.php",
+        "ulURL" :"empty.php",
+        "pingURL" :"empty.php",
+        "getIpURL" :"getIP.php"
+    },
+    {
+        "name": "pineapple (LAN)",
+        "server" :"https://speedtest-pineapple.infra.nickysemenza.com",
+        "dlURL" :"garbage.php",
+        "ulURL" :"empty.php",
+        "pingURL" :"empty.php",
+        "getIpURL" :"getIP.php"
+    }
+]

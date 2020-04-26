@@ -26,6 +26,14 @@ include:
     - mode: 644
     - template: jinja
     - source: salt://traefik/http.yml.jinja
+
+
+/data/compose/speedtest.json:
+  file.managed:
+    - makedirs: True
+    - mode: 644
+    - template: jinja
+    - source: salt://speedtest/speedtest.json.jinja    
 {% endif %}
 
 

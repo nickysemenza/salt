@@ -129,3 +129,11 @@ services:
       - APIKEY={{ pillar.get('cloudflare')['apikey'] }}
       - APIEMAIL={{ pillar.get('cloudflare')['apiemail'] }}
     image: stephanecloudflare/cloudflare-prometheus-exporter
+  speedtest:
+    environment:
+      - MODE=standalone
+    ports:
+      - '{{lib.get_port('speedtest')}}:80'
+    image: adolfintel/speedtest
+    {# volumes: #}
+      {# - /data/compose/speedtest.json:/servers.json #}

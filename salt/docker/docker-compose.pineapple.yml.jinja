@@ -2,6 +2,12 @@
 {%- set media_dir = '/mnt/media' %}
 version: "3.3"
 services:
+  speedtest:
+    environment:
+      - MODE=standalone
+    ports:
+      - '{{lib.get_port('speedtest')}}:80'
+    image: adolfintel/speedtest
   plex:
     container_name: plex
     environment:
