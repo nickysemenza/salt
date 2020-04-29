@@ -31,3 +31,4 @@ routes:
     upstream_override: "http://{{ pineapple }}"
     portname_override: speedtest
   speedtest: {}
+  portainer: {}

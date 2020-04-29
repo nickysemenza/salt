@@ -148,3 +148,12 @@ services:
       - "{{lib.get_port('transmission_exporter')}}:19091"
     environment:
       TRANSMISSION_ADDR: http://{{pillar.roles['main'].tailscale_ip}}:{{lib.get_port('transmission')}}
+  portainer:
+    ports:
+      - '{{lib.get_port('portainer')}}:9000'
+      - '{{lib.get_port('portainer_misc')}}:8000'
+    container_name: portainer
+    restart: always
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    image: portainer/portainer

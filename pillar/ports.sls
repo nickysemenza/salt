@@ -19,4 +19,6 @@ ports:
   unifipoller: 9130 # /metrics for unifi
   domain_exporter: 9222
   speedtest: 9300
+  portainer: 9400
+  portainer_misc: 9401
   transmission_exporter: 19091

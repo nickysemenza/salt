@@ -69,7 +69,6 @@ cloudflare:
     =Th38
     -----END PGP MESSAGE-----
 gcloud: 
-{# tracing-test-1@nickysemenza1.iam.gserviceaccount.com" #}
   logs: | 
     -----BEGIN PGP MESSAGE-----
 
