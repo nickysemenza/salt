@@ -1,6 +1,6 @@
 
-{%- set node_exporter_version = '0.18.1' %}
-{%- set prom_version = '2.13.1' %}
+{%- set node_exporter_version = '1.0.0-rc.0' %}
+{%- set prom_version = '2.18.1' %}
 
 {% set host = grains.get('host') %}
 {% set node_configs = pillar.get('prometheus') %}

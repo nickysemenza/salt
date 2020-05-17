@@ -1,7 +1,7 @@
 deps:
   pkg.installed:
     - pkgs:
-      - python-pip
+      {# - python-pip #}
       - python3-pip
       - python-apt
     - reload_modules: true
