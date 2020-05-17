@@ -1,0 +1,21 @@
+{% set host = grains.get('host') %}
+[Unit]
+Description="HashiCorp Consul - A service mesh solution"
+Documentation=https://www.consul.io/
+Requires=network-online.target
+After=network-online.target
+ConditionFileNotEmpty=/etc/consul.d/consul.hcl
+
+[Service]
+Type=notify
+{# User=consul #}
+{# Group=consul #}
+ExecStart=/bin/consul agent -config-dir=/etc/consul.d/ -server -advertise="{{pillar.roles[host].tailscale_ip}}" --bootstrap-expect 3 -ui
+ExecReload=/bin/consul reload
+ExecStop=/bin/consul leave
+KillMode=process
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

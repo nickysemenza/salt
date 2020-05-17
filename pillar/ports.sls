@@ -9,6 +9,7 @@ ports:
   traefik: 8082 # admin UI
   hass: 8123 # homeassistant
   unifi: 8443 # admin UI
+  consul: 8500 # http port
   sonarr: 8989 # tv
   transmission: 9097 # torrent via openvpn
   node_exporter: 9100 # /metrics port

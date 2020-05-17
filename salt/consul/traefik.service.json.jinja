@@ -1,0 +1,21 @@
+{% import "lib.sls" as lib -%}
+{
+  "service": {
+    "id": "traefik",
+    "name": "traefik",
+    "meta": {
+      "meta": "for my service"
+    },
+   
+    "checks": [
+      {
+        "id": "api",
+        "name": "HTTP API on port {{lib.get_port('traefik')}}",
+        "http": "http://localhost:{{lib.get_port('traefik')}}/ping",
+        "method": "GET",
+        "interval": "10s",
+        "timeout": "1s"
+      }
+    ]
+  }
+}

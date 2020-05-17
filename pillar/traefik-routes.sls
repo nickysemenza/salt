@@ -32,3 +32,4 @@ routes:
     portname_override: speedtest
   speedtest: {}
   portainer: {}
+  consul: {}
