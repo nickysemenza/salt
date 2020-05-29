@@ -33,3 +33,4 @@ routes:
   speedtest: {}
   portainer: {}
   consul: {}
+  nomad: {}

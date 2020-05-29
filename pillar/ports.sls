@@ -5,6 +5,7 @@ ports:
   cloudflare_exporter: 2112
   grafana: 3000
   ombi: 3579 # media manager
+  nomad: 4646
   radarr: 7878 # movies
   traefik: 8082 # admin UI
   hass: 8123 # homeassistant
@@ -15,6 +16,7 @@ ports:
   node_exporter: 9100 # /metrics port
   prometheus: 9101 # admin UI
   cadvisor: 9102 # UI + /metrics
+  consul_exporter: 9107
   jackett: 9117 # torrent indexer
   vmware_exporter: 9272 # /metrics for ESXI
   unifipoller: 9130 # /metrics for unifi

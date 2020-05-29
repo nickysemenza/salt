@@ -16,14 +16,6 @@ prometheus:
         regex: '.*'
         target_label: instance
         replacement: 'pecan'
-    - job_name: 'node_exporter peach'
-      static_configs:
-      - targets: ['{{roles['peach'].lan_ip}}:{{ ports['node_exporter'] }}']
-      relabel_configs:
-      - source_labels: [__address__]
-        regex: '.*'
-        target_label: instance
-        replacement: 'peach'
     - job_name: 'node_exporter mainvm'
       static_configs:
       - targets: ['{{roles['main'].lan_ip}}:{{ ports['node_exporter'] }}']
@@ -91,6 +83,9 @@ prometheus:
     - job_name: 'transmission'
       static_configs:
       - targets: ['localhost:{{ports['transmission_exporter']}}']
+    - job_name: 'consul'
+      static_configs:
+      - targets: ['localhost:{{ports['consul_exporter']}}']
     - job_name: 'domain'
       metrics_path: /probe
       relabel_configs:
