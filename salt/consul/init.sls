@@ -6,12 +6,14 @@
   {%- set arch = "armhfv6" %} 
 {% endif %}
 
+{% set host = grains.get('host') %}
+{% set node_role = pillar.roles[host] %}
+{% if 'consul' in node_role and node_role.consul %}
 
 /usr/share/consul_{{ consul_version }}:
   archive.extracted:
     - enforce_toplevel: False
     - source: https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{arch}}.zip
-    {# - source_hash: sha256=5ab689cad175c08a226a5c41d16392bc7dd30ceaaf90788411542a756773e698 #}
     - skip_verify: True
     - archive_format: zip
     - if_missing: /usr/share/consul_{{ consul_version }}/consul
@@ -19,15 +21,6 @@
 /bin/consul:
   file.symlink:
     - target: /usr/share/consul_{{ consul_version }}/consul
-
-{# misc_packages:
-  pkg.latest:
-    - pkgs:
-      - consul
-      - nomad
-{% if host == "pecan" %}
-      - ipmitool
-{% endif %} #}
 
 /etc/systemd/system/consul.service:
   file.managed:
@@ -45,11 +38,13 @@
     - source: salt://consul/consul.hcl.jinja
     - template: jinja
     - makedirs: True
-
+{% set host = grains.get('host') %}
+{% if host == "salt-01" %}
 /etc/consul.d/traefik.service.json:
   file.managed:
     - source: salt://consul/traefik.service.json.jinja 
     - template: jinja
+{% endif %}
 
 consul_service:
   service:
@@ -58,3 +53,4 @@ consul_service:
     - enable: True
     - watch: 
       - module: /etc/systemd/system/consul.service
+{% endif %}

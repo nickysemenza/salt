@@ -18,7 +18,7 @@ wireguard:
       RfuKvebNmji+eSBUjZz9gsjpWrdWBUU0
       =m3AG
       -----END PGP MESSAGE-----
-  pecan:  ## pecan
+  pecan:
     pubkey: 4p/+8vmHa0Ma1iFKO8hom/icWJX6NQYrcyjh1W9NSTU=
     privkey: |
       -----BEGIN PGP MESSAGE-----
@@ -35,22 +35,4 @@ wireguard:
       gnfZH6EOWtKYhc1iwhb5Oz2A3kETA0tMyK8qNI9ZddWgVjruknhL52ypsHiPBBR4
       pKosnctDm2lDCE/nn/TaYYRN1gILVZVH
       =ZAXP
-      -----END PGP MESSAGE-----
-  peach: 
-    pubkey: uEh2KHqBMF9p34rGjnlt/SQnEylLqVhEr0lkBjxtZBQ=
-    privkey: |
-      -----BEGIN PGP MESSAGE-----
-
-      hQGMAyRAvboUiVyYAQv/fRh4nhFfnwOM1rCvhJxit8ZiWtw3b0IaiwvC0HkSKwXc
-      48VUPJXe2SDJGbShmbkMlpilx+ySEdYtoLx6MB3h4Ham1U+L5TFHGPkHktCIly02
-      vaVjtbaAeVCnLtr9vz//mmP8feASw+aGfktXE9hdjD5LYdJe16JZpCrq3p1ggvkk
-      FRVQzVtSf4KT7pUcPxWjWmk2RR5YIhbvUVEWBF9ssdu3cqWU0MguWk4j+ZTo5COK
-      KSjd5u/gy/skawbJw4DtLmQPtES89mYrybxKXvMA6DMDvuYZzEOyUOJvpNPBIbIj
-      sq2wMPFMFX0Rkdpcf/Xn8rFTcxmhrOh7BGk1UW0XKoEeooVBknTQetgN4uD57pO7
-      TaVzOhi3zu/2Lb2TH8Je00CbNWPpQmmacPCFptt6NTzhXPA82OywCGSEzooRECTW
-      fXyshDpLZ35nEgiKingY0DXwDpemQ0nsDGcT48EQGEPmX0xD2SnzlCJs4qc0EfO6
-      xHN6V1SIQ+BJPNoxzf6a0mcBwKY5Tx1ayIAfG9wyLgbrrzcU9B8mKQUBEj2GNqxD
-      LwkY1+rzXV0AiLWDVA+evdAz56vnofis5w8d+qJwfV+5n5uK/+wkNoZQgk620OaZ
-      fzQU7iFVjbYJp9bbLtHGfNADMHRe3EKZ
-      =rWJx
       -----END PGP MESSAGE-----
