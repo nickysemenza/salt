@@ -7,3 +7,10 @@
 {% macro get_port(service) -%}
 {{pillar.get('ports')[service]}}
 {%- endmacro %}
+
+{% macro compose_log() -%}
+logging:
+        driver: gcplogs
+        options:
+            gcp-project: nickysemenza1
+{%- endmacro %}

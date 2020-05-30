@@ -25,11 +25,15 @@ https://dertompson.com/2019/01/19/how-to-send-docker-logs-to-google-cloud-loggin
     - template: jinja
     - source: salt://docker/gcp-logs.conf.jinja
 /etc/docker/daemon.json:
+{%- if false %}
   file.managed:
     - makedirs: True
     - mode: 644
     - template: jinja
     - source: salt://docker/daemon.json.jinja
+{%- else %}
+  file.absent
+{%- endif %}
 {% if compose_tier == "do1" %}
 /data/compose/grafana/grafana.ini:
   file.managed:
