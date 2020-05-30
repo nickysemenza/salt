@@ -170,7 +170,7 @@ prometheus_node_exporter_service:
     - watch: 
       - module: prometheus_node_exporter_service_script
 
-{% if host == "pecan" %}
+{% if host == "apricot" %}
 {# TODO: pull ip from r710-bm, don't gate this on hostname, move to another sls file, don't pin to master #}
 download_ipmitool:
   file.managed:

@@ -1,6 +1,5 @@
 ports:
   http: 80
-  wireguard: 1234
   cloudflare_access_forward_auth: 2021
   cloudflare_exporter: 2112
   grafana: 3000

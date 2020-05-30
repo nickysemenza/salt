@@ -3,19 +3,19 @@
 {%- import_yaml "data.sls" as data %}
 {% set roles = data.roles %}
 prometheus:
-  pecan:
+  apricot:
     scrape_configs:
     - job_name: 'prometheus'
       static_configs:
       - targets: ['localhost:{{ ports['prometheus'] }}']
-    - job_name: 'node_exporter local (pecan)'
+    - job_name: 'node_exporter local (apricot)'
       static_configs:
       - targets: ['localhost:{{ ports['node_exporter'] }}']
       relabel_configs:
       - source_labels: [__address__]
         regex: '.*'
         target_label: instance
-        replacement: 'pecan'
+        replacement: 'apricot'
     - job_name: 'node_exporter mainvm'
       static_configs:
       - targets: ['{{roles['main'].lan_ip}}:{{ ports['node_exporter'] }}']
@@ -42,7 +42,7 @@ prometheus:
     - job_name: 'local_prometheus'
       static_configs:
       - targets: ['localhost:{{ ports['prometheus'] }}']
-    - job_name: 'federate (pecan)'
+    - job_name: 'federate (apricot)'
       scrape_interval: 15s
       honor_labels: true
       metrics_path: '/federate'
@@ -51,12 +51,12 @@ prometheus:
           - '{job!=""}'
       static_configs:
         - targets:
-          - '{{roles['pecan'].wg_ip}}:{{ ports['prometheus'] }}'
+          - '{{roles['apricot'].tailscale_ip}}:{{ ports['prometheus'] }}'
       relabel_configs:
       - source_labels: [__address__]
         regex: '.*'
         target_label: instance
-        replacement: 'pecan'
+        replacement: 'apricot'
     - job_name: 'node_exporter local (saltmaster)'
       static_configs:
       - targets: ['localhost:{{ ports['node_exporter'] }}']

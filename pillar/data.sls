@@ -3,20 +3,19 @@ motd: hello there :)
 
 roles:
   salt-01:
-    wireguard: server
     public_ip: 157.230.168.108
     tailscale_ip: 100.104.238.26
     docker_compose_tier: do1
     swap: True
     consul: True
     nomad: True
-  pecan:
-    wireguard: client
+  {# pecan:
     lan_ip: 10.0.0.15
-    wg_ip: 172.16.0.1
-    docker_compose_tier: hass
-  {# peach:
-    lan_ip: 10.0.0.99 #}
+    tailscale_ip: 1.1.1.1
+    docker_compose_tier: hass #}
+  apricot:
+    lan_ip: 10.0.0.28
+    tailscale_ip: 100.113.20.43
   main:
     lan_ip: 10.0.0.12
     tailscale_ip: 100.127.109.4

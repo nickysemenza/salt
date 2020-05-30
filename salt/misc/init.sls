@@ -18,7 +18,7 @@ misc_packages:
       - avahi-utils # includes avahi-browse
       - net-tools
       - lldpd
-{% if host == "pecan" %}
+{% if host == "apricot" %}
       - ipmitool
 {% endif %}
 

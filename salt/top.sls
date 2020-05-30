@@ -5,9 +5,6 @@ base:
     - misc
     - motd
     - prometheus
-    - wireguard
     - tailscale
     - consul
     - docker-svc
-  'pecan':
-    - cm500

@@ -1,5 +1,27 @@
-{% if grains.get('osarch') == "amd64" %}
+{% if grains.get('osarch') == "armhf" and grains.get('os') == "Raspbian" %}
+{# tailscale_key:
+  module.run:
+    - name: pkg.add_repo_key
+    - path: https://pkgs.tailscale.com/stable/raspbian/buster.gpg #}
+tailscale_repository:
+  pkgrepo.managed:
+    - humanname: tailscale
+    - name: deb https://pkgs.tailscale.com/stable/raspbian buster main
+    - file: /etc/apt/sources.list.d/tailscale.list
+    - gpgcheck: 1
+    - key_url: https://pkgs.tailscale.com/stable/raspbian/buster.gpg
+    {# - unless: file -s /etc/apt/sources.list.d/tailscale.list #}
 
+tailscale:
+  pkg.installed:
+    - name: tailscale
+    {# - fromrepo: tailscale #}
+    - refresh: True
+    - require:
+      - pkgrepo: tailscale_repository
+
+{% endif %}
+{% if grains.get('osarch') == "amd64" %}
 ts:
   pkg.installed:
     - sources:
