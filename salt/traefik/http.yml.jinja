@@ -2,15 +2,20 @@
 
 {% set services = pillar.routes %}
 
+{% set aud_primary = "7c6d913377f00e8781dfa2c785ae01b2f37f17c067b0fb830ad71e305a5a21d5" %}
+{% set auds = [] %} 
+
 http:
   routers:
 {%- for service, attrs in services.items() %}
+{% set aud = attrs['aud_override'] if 'aud_override' in attrs else aud_primary %}
     {{service}}:
       rule: "Host(`{{service}}.infra.nickysemenza.com`)"
       service: {{service}}
       middlewares:
         - "cloudflare-ips"
-        - "cloudflare-access"
+        - "cloudflare-access-{{aud}}"
+{% do auds.append(aud) %}
 {%-endfor%} 
 
     traefik-dashboard:
@@ -18,12 +23,14 @@ http:
       service: api@internal
       middlewares:
         - "cloudflare-ips"
-        - "cloudflare-access"
+        - "cloudflare-access-{{aud_primary}}"
 
   middlewares:
-    cloudflare-access:
+    {% for item in auds | list | unique %}
+    cloudflare-access-{{item}}:
       forwardAuth:
-        address: "http://localhost:{{lib.get_port('cloudflare_access_forward_auth')}}/auth/7c6d913377f00e8781dfa2c785ae01b2f37f17c067b0fb830ad71e305a5a21d5"
+        address: "http://localhost:{{lib.get_port('cloudflare_access_forward_auth')}}/auth/{{item}}"
+    {% endfor %}
     cloudflare-ips:
       ipWhiteList:
         sourceRange:

@@ -38,16 +38,9 @@ services:
       - 14268:14268
       - 9411:9411
     image: "jaegertracing/all-in-one:1.10"
-    labels:
-      - "traefik.http.routers.jaeger.rule=Host(`jaeger.infra.nickysemenza.com`)"
-      - "traefik.http.services.jaeger.loadbalancer.server.port=16686"
-      - "traefik.http.routers.jaeger.middlewares=cloudflare-access@file"
   whoami:
     image: emilevauge/whoami
     container_name: whoami
-    labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.infra.nickysemenza.com`) || HostRegexp(`{subdomain:[a-z]+}.infra.nickysemenza.com`)"
-      - "traefik.http.routers.whoami.priority=30"
   digitalocean_exporter:
     image: metalmatze/digitalocean_exporter:master
     container_name: digitalocean_exporter 
@@ -73,10 +66,6 @@ services:
       GF_DATABASE_SSL_MODE: disable
       GF_SERVER_ROOT_URL: "https://grafana.infra.nickysemenza.com"
       GF_TRACING_JAEGER_ADDRESS: localhost:6831
-    labels:
-      - "traefik.http.routers.grafana.rule=Host(`grafana.nickysemenza.com`)"
-      - "traefik.http.services.grafana.loadbalancer.server.port={{pillar.get('ports')['grafana']}}"
-      - "traefik.http.routers.grafana.middlewares=cloudflare-access@file"
   cadvisor:
     image: google/cadvisor:latest
     container_name: cadvisor
