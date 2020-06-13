@@ -12,20 +12,32 @@ docker logs -> GCP
 https://joonas.fi/2019/01/06/how-to-configure-gcplogs-for-docker/
 https://dertompson.com/2019/01/19/how-to-send-docker-logs-to-google-cloud-logging/ 
 #}
+{% set enable_gcp_logs = false %}
+
 /etc/docker/googlecloud-serviceaccount.json:
+{%- if enable_gcp_logs %}
   file.managed:
     - makedirs: True
     - mode: 644
     - template: jinja
     - contents_pillar: gcloud:logs
+{%- else %}
+  file.absent
+{%- endif %} 
+
 /etc/systemd/system/docker.service.d/gcp-logs.conf:
+{%- if enable_gcp_logs %}    
   file.managed:
     - makedirs: True
     - mode: 644
     - template: jinja
     - source: salt://docker/gcp-logs.conf.jinja
+{%- else %}
+  file.absent
+{%- endif %}    
+
 /etc/docker/daemon.json:
-{%- if false %}
+{%- if enable_gcp_logs %}
   file.managed:
     - makedirs: True
     - mode: 644
