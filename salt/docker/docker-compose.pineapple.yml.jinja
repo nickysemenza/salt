@@ -8,6 +8,15 @@ services:
     ports:
       - '{{lib.get_port('speedtest')}}:80'
     image: adolfintel/speedtest
+  vmwaremetrics:
+    ports:
+      - "{{lib.get_port('vmware_exporter')}}:9272"
+    environment:
+      VSPHERE_USER: "{{ pillar.get('esxi')['username'] }}"
+      VSPHERE_PASSWORD: "{{ pillar.get('esxi')['password'] }}"
+      VSPHERE_HOST: "{{pillar.roles['esxi'].lan_ip}}"
+      VSPHERE_IGNORE_SSL: "True"
+    image: pryorda/vmware_exporter  
   plex:
     container_name: plex
     environment:

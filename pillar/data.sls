@@ -32,4 +32,7 @@ roles:
   r710-bmc:
     message: not managed by salt
     lan_ip: 10.0.0.13
+  esxi:
+    message: not managed by salt
+    lan_ip: 10.0.0.14
 

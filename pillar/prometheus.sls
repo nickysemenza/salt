@@ -34,9 +34,12 @@ prometheus:
     - job_name: 'xfinity'
       static_configs:
       - targets: ['localhost:2112']
-    - job_name: 'esxi'
+    - job_name: 'esxi (legacy)'
       static_configs:
       - targets: ['{{roles['main'].lan_ip}}:{{ports['vmware_exporter']}}']
+    - job_name: 'esxi'
+      static_configs:
+      - targets: ['{{roles['pineapple'].lan_ip}}:{{ports['vmware_exporter']}}']
   salt-01:
     scrape_configs:
     - job_name: 'local_prometheus'

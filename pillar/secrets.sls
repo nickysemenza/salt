@@ -119,3 +119,20 @@ gcloud:
     J/TxQTg=
     =VgKf
     -----END PGP MESSAGE-----
+esxi:
+  username: root
+  password: | 
+    -----BEGIN PGP MESSAGE-----
+
+    hQGMAyRAvboUiVyYAQv/ZzXRzCYduADo7abcrZoKlAilFuZGa0JYsUkGgEfXwk2U
+    4fyrM+cGQqGRRercAfKPd9ySR7JxyJ7u2KPBJB4xk60g+Di04+1A9RG0DslHwsk0
+    oiLUliP0S1lHLwrG2aeAGDRUAuruNHJ7Cv9HoEKVWppXXc9oo9wMxsFAGI3fvpIV
+    k0Mc7mnhc1lgURxs5jVNpKIQ7fp8AjMM7FoAOZfiUcgqOg8cmFSGNz04Fpm8Ps6C
+    U8Vyloh7El8Ts7Y7v3xWu49Eq3qYnsYt021Ih5kIQRRehQ3PabS03myV9yJWjxS3
+    QDI1Vw+gPEeLD5L0sAwbkAAIy3lfs6DlwOU2uVgEyta97zP91Rhnqhxu+ciu1ULS
+    5zPDxt2C1+vl5zfzJhaG3+M+KYdrgQh8YgTTg+CAllWn1bX7Wh23/RA1BOTqHqYc
+    Pvl5zCR5ZjJ6AE41fYpiN+C9kFCi5QtaYWLjLpTl1LDeUOl7c5nG1MM0dPSH4+/j
+    x+rLRG/hFFqtcaE25qps0kQBEXH4JltdfCpIuGu+/+tVHzh1TjSjQyqY8ui0UFr6
+    3oPhh8Gz1LjXVp8LhNtGtKY8xKV70Le+odqH8nPiRwXFELTOug==
+    =gWb6
+    -----END PGP MESSAGE-----
