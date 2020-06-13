@@ -26,7 +26,7 @@ misc_packages:
 rg:
   pkg.installed:
     - sources:
-      - ripgrep: https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+      - ripgrep: https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
 {% endif %}
 
 {% if 'swap' in node_role and node_role.swap %}
