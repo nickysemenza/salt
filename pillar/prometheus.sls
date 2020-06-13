@@ -25,9 +25,9 @@ prometheus:
         target_label: instance
         replacement: 'mainvm'
     - job_name: 'freenas netdata'
-      metrics_path: '/netdata/api/v1/allmetrics?format=prometheus&help=yes'
+      metrics_path: '/api/v1/allmetrics?format=prometheus&help=yes'
       static_configs:
-      - targets: ['{{roles['freenas'].lan_ip}}']
+      - targets: ['{{roles['freenas'].lan_ip}}:19999']
     - job_name: 'cadvisor'
       static_configs:
       - targets: ['localhost:{{ports['cadvisor']}}']
